@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validação de Formulários</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .validation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .validation-section {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .validation-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-header {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 25px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .section-content {
+            padding: 30px;
+        }
+
+        .description {
+            background: #f8f9fa;
+            border-left: 4px solid #e74c3c;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .form-demo {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 2px solid #dee2e6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-control.valid {
+            border-color: #28a745;
+            background-color: #f8fff8;
+        }
+
+        .form-control.invalid {
+            border-color: #dc3545;
+            background-color: #fff8f8;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .success-message {
+            color: #28a745;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .submit-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .code-section {
+            margin-top: 30px;
+        }
+
+        .code-title {
+            background: #2d3748;
+            color: white;
+            padding: 12px 20px;
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+        }
+
+        pre {
+            margin: 0 !important;
+            border-radius: 0 0 8px 8px !important;
+            font-size: 14px !important;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .validation-status {
+            background: #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: monospace;
+            min-height: 60px;
+        }
+
+        .password-strength {
+            margin-top: 10px;
+        }
+
+        .strength-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .strength-fill {
+            height: 100%;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .strength-weak { background: #dc3545; width: 25%; }
+        .strength-medium { background: #ffc107; width: 60%; }
+        .strength-strong { background: #28a745; width: 100%; }
+
+        .requirement-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .requirement-list li {
+            padding: 5px 0;
+            font-size: 14px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .requirement-list li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .requirement-list li.valid::before {
+            content: "✓";
+            color: #28a745;
+        }
+
+        .real-time-validation {
+            background: linear-gradient(45deg, #17a2b8, #138496);
+        }
+
+        .html5-validation {
+            background: linear-gradient(45deg, #28a745, #20a038);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .full-width-section {
+            grid-column: 1 / -1;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Validação de Formulários</h1>
+
+    <div class="validation-grid">
+        <!-- VALIDAÇÃO HTML5 -->
+        <div class="validation-section">
+            <div class="section-header html5-validation">
+                <span>Validação HTML5 Nativa</span>
+            </div>
+            <div class="section-content">
+                <div class="description">
+                    <strong>O que é:</strong> Validação incorporada no HTML5 usando atributos como required, pattern, min/max, type, etc.
+                    <br><strong>Características:</strong> Implementação direta sem JavaScript, porém com opções de personalização limitadas.
+                </div>
+
+                <div class="form-demo">
+                    <form id="html5Form" novalidate>
+                        <div class="form-group">
+                            <label for="html5Email">Email (obrigatório):</label>
+                            <input type="email" id="html5Email" class="form-control" required
+                                   placeholder="seu@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="html5Phone">Telefone (padrão brasileiro):</label>
+                            <input type="tel" id="html5Phone" class="form-control"
+                                   pattern="^\(\d{2}\)\s\d{4,5}-\d{4}$"
+                                   placeholder="(11) 99999-9999">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="html5Age">Idade (18-100):</label>
+                            <input type="number" id="html5Age" class="form-control"
+                                   min="18" max="100" required>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Validar HTML5</button>
+                    </form>
+                    <div class="validation-status" id="html5Status">Preencha o formulário...</div>
+                </div>
+
+                <div class="code-section">
+                    <div class="code-title">Código HTML5</div>
+                    <pre><code class="language-html">&lt;form id="html5Form"&gt;
+    &lt;!-- Email obrigatório --&gt;
+    &lt;input type="email" required placeholder="seu@email.com"&gt;
+
+    &lt;!-- Telefone com padrão regex --&gt;
+    &lt;input type="tel" pattern="^\(\d{2}\)\s\d{4,5}-\d{4}$"
+           placeholder="(11) 99999-9999"&gt;
+
+    &lt;!-- Idade com limites --&gt;
+    &lt;input type="number" min="18" max="100" required&gt;
+
+    &lt;button type="submit"&gt;Validar&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- VALIDAÇÃO EM TEMPO REAL -->
+        <div class="validation-section">
+            <div class="section-header real-time-validation">
+                <span>Validação em Tempo Real</span>
+            </div>
+            <div class="section-content">
+                <div class="description">
+                    <strong>O que é:</strong> Validação que acontece enquanto o usuário digita, usando eventos como 'input' e 'blur'.
+                    <br><strong>Características:</strong> Oferece feedback durante a digitação, requerendo mais código JavaScript.
+                </div>
+
+                <div class="form-demo">
+                    <form id="realtimeForm">
+                        <div class="form-group">
+                            <label for="realtimeEmail">Email:</label>
+                            <input type="email" id="realtimeEmail" class="form-control" placeholder="seu@email.com">
+                            <div class="error-message" id="realtimeEmailError"></div>
+                            <div class="success-message" id="realtimeEmailSuccess"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="realtimePassword">Senha:</label>
+                            <input type="password" id="realtimePassword" class="form-control" placeholder="Crie uma senha">
+                            <div class="password-strength">
+                                <div class="strength-bar">
+                                    <div class="strength-fill" id="strengthFill"></div>
+                                </div>
+                                <div id="strengthText">Digite uma senha...</div>
+                                <ul class="requirement-list" id="passwordRequirements">
+                                    <li id="req-length">Mínimo 8 caracteres</li>
+                                    <li id="req-upper">Uma letra maiúscula</li>
+                                    <li id="req-lower">Uma letra minúscula</li>
+                                    <li id="req-number">Um número</li>
+                                    <li id="req-special">Um caractere especial</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="realtimeCPF">CPF:</label>
+                            <input type="text" id="realtimeCPF" class="form-control"
+                                   placeholder="000.000.000-00" maxlength="14">
+                            <div class="error-message" id="realtimeCPFError"></div>
+                            <div class="success-message" id="realtimeCPFSuccess"></div>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="realtimeSubmit" disabled>Validar em Tempo Real</button>
+                    </form>
+                    <div class="validation-status" id="realtimeStatus">Digite nos campos acima...</div>
+                </div>
+
+                <div class="code-section">
+                    <div class="code-title">Código JavaScript (Tempo Real)</div>
+                    <pre><code class="language-javascript">// Validação de email em tempo real
+document.getElementById('realtimeEmail').addEventListener('input', function() {
+    const email = this.value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (email.length === 0) {
+        resetField(this);
+    } else if (emailRegex.test(email)) {
+        setValid(this, 'Email válido!');
+    } else {
+        setInvalid(this, 'Email inválido');
+    }
+});
+
+// Validação de força de senha
+document.getElementById('realtimePassword').addEventListener('input', function() {
+    const password = this.value;
+    checkPasswordStrength(password);
+});
+
+function checkPasswordStrength(password) {
+    const requirements = [
+        { id: 'req-length', test: password.length >= 8 },
+        { id: 'req-upper', test: /[A-Z]/.test(password) },
+        { id: 'req-lower', test: /[a-z]/.test(password) },
+        { id: 'req-number', test: /\d/.test(password) },
+        { id: 'req-special', test: /[!@#$%^&*(),.?":{}|<>]/.test(password) }
+    ];
+
+    let validCount = 0;
+    requirements.forEach(req => {
+        const element = document.getElementById(req.id);
+        if (req.test) {
+            element.classList.add('valid');
+            validCount++;
+        } else {
+            element.classList.remove('valid');
+        }
+    });
+
+    updateStrengthBar(validCount);
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMPARAÇÃO DE TIPOS -->
+    <div class="validation-section full-width-section">
+        <div class="section-header" style="background: linear-gradient(45deg, #2c3e50, #34495e);">
+            <span>Comparação dos Tipos de Validação</span>
+        </div>
+        <div class="section-content">
+            <table class="comparison-table">
+                <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Implementação</th>
+                    <th>Performance</th>
+                    <th>Experiência do Usuário</th>
+                    <th>Flexibilidade</th>
+                    <th>Casos de Uso</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><strong>HTML5 Nativa</strong></td>
+                    <td>Direta</td>
+                    <td>Adequada</td>
+                    <td>Básica</td>
+                    <td>Limitada</td>
+                    <td>Validações simples</td>
+                </tr>
+                <tr>
+                    <td><strong>Tempo Real</strong></td>
+                    <td>Requer programação</td>
+                    <td>Satisfatória</td>
+                    <td>Interativa</td>
+                    <td>Ampla</td>
+                    <td>Formulários interativos</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="code-section">
+                <div class="code-title">Diferenças Principais</div>
+                <pre><code class="language-javascript">// HTML5 - Automática pelo navegador
+&lt;input type="email" required&gt;
+
+// JavaScript - Controle manual
+input.addEventListener('input', function() {
+    if (isValid(this.value)) {
+        showSuccess();
+    } else {
+        showError();
+    }
+});</code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<script>
+    // Funções auxiliares
+    function setValid(element, message) {
+        element.classList.remove('invalid');
+        element.classList.add('valid');
+        const errorEl = document.getElementById(element.id + 'Error');
+        const successEl = document.getElementById(element.id + 'Success');
+        if (errorEl) errorEl.style.display = 'none';
+        if (successEl) {
+            successEl.textContent = message;
+            successEl.style.display = 'block';
+        }
+    }
+
+    function setInvalid(element, message) {
+        element.classList.remove('valid');
+        element.classList.add('invalid');
+        const errorEl = document.getElementById(element.id + 'Error');
+        const successEl = document.getElementById(element.id + 'Success');
+        if (successEl) successEl.style.display = 'none';
+        if (errorEl) {
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+        }
+    }
+
+    function resetField(element) {
+        element.classList.remove('valid', 'invalid');
+        const errorEl = document.getElementById(element.id + 'Error');
+        const successEl = document.getElementById(element.id + 'Success');
+        if (errorEl) errorEl.style.display = 'none';
+        if (successEl) successEl.style.display = 'none';
+    }
+
+    // HTML5 VALIDATION
+    document.getElementById('html5Form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const status = document.getElementById('html5Status');
+
+        if (this.checkValidity()) {
+            status.textContent = 'Formulário válido! Dados prontos para envio.';
+            status.style.background = '#d4edda';
+            status.style.color = '#155724';
+        } else {
+            status.textContent = 'Formulário contém erros. Verifique os campos.';
+            status.style.background = '#f8d7da';
+            status.style.color = '#721c24';
+        }
+    });
+
+    // REAL-TIME VALIDATION
+
+    // Email validation
+    document.getElementById('realtimeEmail').addEventListener('input', function() {
+        const email = this.value;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (email.length === 0) {
+            resetField(this);
+        } else if (emailRegex.test(email)) {
+            setValid(this, 'Email válido!');
+        } else {
+            setInvalid(this, 'Email inválido');
+        }
+        updateSubmitButton();
+    });
+
+    // Password strength validation
+    document.getElementById('realtimePassword').addEventListener('input', function() {
+        const password = this.value;
+        checkPasswordStrength(password);
+        updateSubmitButton();
+    });
+
+    function checkPasswordStrength(password) {
+        const requirements = [
+            { id: 'req-length', test: password.length >= 8 },
+            { id: 'req-upper', test: /[A-Z]/.test(password) },
+            { id: 'req-lower', test: /[a-z]/.test(password) },
+            { id: 'req-number', test: /\d/.test(password) },
+            { id: 'req-special', test: /[!@#$%^&*(),.?":{}|<>]/.test(password) }
+        ];
+
+        let validCount = 0;
+        requirements.forEach(req => {
+            const element = document.getElementById(req.id);
+            if (req.test) {
+                element.classList.add('valid');
+                validCount++;
+            } else {
+                element.classList.remove('valid');
+            }
+        });
+
+        updateStrengthBar(validCount);
+    }
+
+    function updateStrengthBar(validCount) {
+        const strengthFill = document.getElementById('strengthFill');
+        const strengthText = document.getElementById('strengthText');
+
+        if (validCount <= 2) {
+            strengthFill.className = 'strength-fill strength-weak';
+            strengthText.textContent = 'Senha fraca';
+        } else if (validCount <= 4) {
+            strengthFill.className = 'strength-fill strength-medium';
+            strengthText.textContent = 'Senha média';
+        } else {
+            strengthFill.className = 'strength-fill strength-strong';
+            strengthText.textContent = 'Senha forte';
+        }
+    }
+
+    // CPF validation
+    document.getElementById('realtimeCPF').addEventListener('input', function() {
+        let cpf = this.value;
+
+        // Format CPF
+        cpf = cpf.replace(/\D/g, '');
+        cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+        cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+        cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        this.value = cpf;
+
+        // Validate CPF
+        const cleanCPF = cpf.replace(/\D/g, '');
+        if (cleanCPF.length === 11) {
+            if (validateCPF(cleanCPF)) {
+                setValid(this, 'CPF válido!');
+            } else {
+                setInvalid(this, 'CPF inválido');
+            }
+        } else if (cleanCPF.length > 0) {
+            setInvalid(this, 'CPF deve ter 11 dígitos');
+        } else {
+            resetField(this);
+        }
+        updateSubmitButton();
+    });
+
+    function validateCPF(cpf) {
+        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+
+        let sum = 0;
+        for (let i = 0; i < 9; i++) {
+            sum += parseInt(cpf[i]) * (10 - i);
+        }
+        let remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        if (remainder !== parseInt(cpf[9])) return false;
+
+        sum = 0;
+        for (let i = 0; i < 10; i++) {
+            sum += parseInt(cpf[i]) * (11 - i);
+        }
+        remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        return remainder === parseInt(cpf[10]);
+    }
+
+    function updateSubmitButton() {
+        const submitBtn = document.getElementById('realtimeSubmit');
+        const validFields = document.querySelectorAll('#realtimeForm .form-control.valid');
+        const totalFields = document.querySelectorAll('#realtimeForm .form-control');
+
+        if (validFields.length === totalFields.length) {
+            submitBtn.disabled = false;
+        } else {
+            submitBtn.disabled = true;
+        }
+    }
+
+    document.getElementById('realtimeForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const status = document.getElementById('realtimeStatus');
+        status.textContent = 'Formulário enviado com sucesso!';
+        status.style.background = '#d4edda';
+        status.style.color = '#155724';
+    });
+</script>
+</body>
+</html>
