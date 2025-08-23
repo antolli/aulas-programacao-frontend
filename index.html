@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exemplos de Eventos DOM</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <title>Professora Elisa - Programação para Internet com Frontend</title>
     <style>
         * {
             margin: 0;
@@ -15,490 +14,356 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            padding: 20px;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
-        h1 {
-            text-align: center;
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
             color: white;
-            margin-bottom: 30px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(255,255,255,0.05) 10px,
+                    rgba(255,255,255,0.05) 20px
+            );
+            animation: movePattern 20s linear infinite;
+        }
+
+        @keyframes movePattern {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .header h1 {
             font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        .event-section {
-            background: white;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
         }
 
-        .event-section:hover {
-            transform: translateY(-5px);
+        .content {
+            padding: 40px 30px;
         }
 
-        .event-header {
-            background: linear-gradient(45deg, #2c3e50, #34495e);
-            color: white;
-            padding: 20px;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .event-content {
-            padding: 25px;
-        }
-
-        .description {
-            background: #f8f9fa;
-            border-left: 4px solid #007bff;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .demo-area {
-            background: #e9ecef;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 2px dashed #6c757d;
-        }
-
-        .demo-element {
-            background: #007bff;
-            color: white;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 10px;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .demo-element:hover {
-            background: #0056b3;
-            transform: scale(1.05);
-        }
-
-        .input-demo {
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            width: 100%;
-            max-width: 300px;
-            margin: 10px;
-        }
-
-        .input-demo:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0,123,255,0.5);
-        }
-
-        .output {
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            min-height: 50px;
-            font-family: 'Courier New', monospace;
-            white-space: pre-wrap;
-        }
-
-        .code-section {
-            margin-top: 25px;
-        }
-
-        .code-title {
-            background: #2d3748;
-            color: white;
-            padding: 10px 15px;
-            margin: 0;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 8px 8px 0 0;
-        }
-
-        pre {
-            margin: 0 !important;
-            border-radius: 0 0 8px 8px !important;
-            font-size: 14px !important;
-        }
-
-        .event-list {
+        .units-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
             margin-top: 20px;
         }
 
-        .draggable {
-            background: #28a745;
-            padding: 15px;
-            margin: 10px;
-            border-radius: 8px;
-            cursor: move;
-            user-select: none;
+        .unit {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
 
-        .drop-zone {
-            border: 3px dashed #6c757d;
-            padding: 30px;
+        .unit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .unit:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .unit:hover::before {
+            transform: scaleX(1);
+        }
+
+        .unit h3 {
+            color: #2c3e50;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
             text-align: center;
-            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            background: linear-gradient(135deg, #5a6fd8, #6a4c93);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn.resumo {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            font-weight: 600;
+        }
+
+        .btn.resumo:hover {
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
             background: #f8f9fa;
-            min-height: 100px;
-            margin: 10px;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
         }
 
-        .drop-zone.dragover {
-            border-color: #007bff;
-            background: #e3f2fd;
+        .footer p {
+            margin-bottom: 10px;
         }
 
-        .form-demo {
-            max-width: 400px;
-            margin: 20px 0;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .key-display {
-            background: #343a40;
+        .professor-info {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
+            margin-bottom: 30px;
             text-align: center;
-            font-family: 'Courier New', monospace;
-            font-size: 18px;
-            margin: 15px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .units-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .buttons-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animação de entrada */
+        .unit {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .unit:nth-child(1) { animation-delay: 0.1s; }
+        .unit:nth-child(2) { animation-delay: 0.2s; }
+        .unit:nth-child(3) { animation-delay: 0.3s; }
+        .unit:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Eventos DOM - Exemplos Práticos</h1>
+<div class="container">
+    <header class="header">
+        <h1>Professora Elisa</h1>
+        <p>Programação para Internet com Frontend</p>
+    </header>
 
-        <!-- CLICK EVENT -->
-        <div class="event-section">
-            <div class="event-header">click - Evento de Clique</div>
-            <div class="event-content">
-                <div class="description">
-                    <strong>O que faz:</strong> Disparado quando o usuário clica em um elemento (mouse ou touch).
-                </div>
-                
-                <div class="demo-area">
-                    <button class="demo-element" id="clickBtn">Clique em mim!</button>
-                    <div class="output" id="clickOutput">Aguardando clique...</div>
-                </div>
+    <div class="content">
+        <div class="professor-info">
+            <h2>Bem-vindos à disciplina!</h2>
+            <p>Aqui você encontrará todo o material organizado por unidades. Clique nos botões para acessar o conteúdo de cada aula.</p>
+        </div>
 
-                <div class="code-section">
-                    <div class="code-title">Código JavaScript</div>
-                    <pre><code class="language-javascript">document.getElementById('clickBtn').addEventListener('click', function() {
-    const output = document.getElementById('clickOutput');
-    const now = new Date().toLocaleTimeString();
-    output.textContent = `Botão clicado às ${now}!`;
-});</code></pre>
+        <div class="units-grid">
+            <!-- Unidade 1 -->
+            <div class="unit">
+                <h3>Unidade 1</h3>
+                <div class="buttons-grid">
+                    <a href="unidade1/aula01/" class="btn">Aula 01</a>
+                    <a href="unidade1/aula02/index.html" class="btn">Aula 02</a>
+                    <a href="unidade1/aula03/" class="btn">Aula 03</a>
+                    <a href="unidade1/aula04/" class="btn">Aula 04</a>
+                    <a href="unidade1/resumo/" class="btn resumo">Resumo</a>
+                </div>
+            </div>
+
+            <!-- Unidade 2 -->
+            <div class="unit">
+                <h3>Unidade 2</h3>
+                <div class="buttons-grid">
+                    <a href="unidade2/aula01/" class="btn">Aula 01</a>
+                    <a href="unidade2/aula02/" class="btn">Aula 02</a>
+                    <a href="unidade2/aula03/" class="btn">Aula 03</a>
+                    <a href="unidade2/aula04/" class="btn">Aula 04</a>
+                    <a href="unidade2/resumo/" class="btn resumo">Resumo</a>
+                </div>
+            </div>
+
+            <!-- Unidade 3 -->
+            <div class="unit">
+                <h3>Unidade 3</h3>
+                <div class="buttons-grid">
+                    <a href="unidade3/aula01/" class="btn">Aula 01</a>
+                    <a href="unidade3/aula02/" class="btn">Aula 02</a>
+                    <a href="unidade3/aula03/" class="btn">Aula 03</a>
+                    <a href="unidade3/aula04/" class="btn">Aula 04</a>
+                    <a href="unidade3/resumo/" class="btn resumo">Resumo</a>
+                </div>
+            </div>
+
+            <!-- Unidade 4 -->
+            <div class="unit">
+                <h3>Unidade 4</h3>
+                <div class="buttons-grid">
+                    <a href="unidade4/aula01/" class="btn">Aula 01</a>
+                    <a href="unidade4/aula02/" class="btn">Aula 02</a>
+                    <a href="unidade4/aula03/" class="btn">Aula 03</a>
+                    <a href="unidade4/aula04/" class="btn">Aula 04</a>
+                    <a href="unidade4/resumo/" class="btn resumo">Resumo</a>
                 </div>
             </div>
         </div>
-
-        <!-- CHANGE EVENT -->
-        <div class="event-section">
-            <div class="event-header">change - Evento de Mudança</div>
-            <div class="event-content">
-                <div class="description">
-                    <strong>O que faz:</strong> Disparado quando o valor de um input é alterado e o elemento perde o foco.
-                </div>
-                
-                <div class="demo-area">
-                    <input type="text" class="input-demo" id="changeInput" placeholder="Digite algo e pressione Tab/Enter">
-                    <select class="input-demo" id="changeSelect">
-                        <option>Selecione uma opção</option>
-                        <option value="opcao1">Opção 1</option>
-                        <option value="opcao2">Opção 2</option>
-                        <option value="opcao3">Opção 3</option>
-                    </select>
-                    <div class="output" id="changeOutput">Nenhuma mudança detectada ainda...</div>
-                </div>
-
-                <div class="code-section">
-                    <div class="code-title">Código JavaScript</div>
-                    <pre><code class="language-javascript">// Para input de texto
-document.getElementById('changeInput').addEventListener('change', function() {
-    const output = document.getElementById('changeOutput');
-    output.textContent = `Texto alterado para: "${this.value}"`;
-});
-
-// Para select
-document.getElementById('changeSelect').addEventListener('change', function() {
-    const output = document.getElementById('changeOutput');
-    output.textContent = `Seleção alterada para: "${this.value}"`;
-});</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- INPUT EVENT -->
-        <div class="event-section">
-            <div class="event-header">input - Evento de Entrada</div>
-            <div class="event-content">
-                <div class="description">
-                    <strong>O que faz:</strong> Disparado imediatamente sempre que o valor de um input é alterado (em tempo real).
-                    <br><strong>Diferença do 'change':</strong> 'input' dispara a cada digitação, 'change' apenas quando perde o foco.
-                </div>
-                
-                <div class="demo-area">
-                    <input type="text" class="input-demo" id="inputField" placeholder="Digite em tempo real...">
-                    <div class="output" id="inputOutput">Digite algo no campo acima...</div>
-                </div>
-
-                <div class="code-section">
-                    <div class="code-title">Código JavaScript</div>
-                    <pre><code class="language-javascript">document.getElementById('inputField').addEventListener('input', function() {
-    const output = document.getElementById('inputOutput');
-    const length = this.value.length;
-    output.textContent = `Digitando: "${this.value}" (${length} caracteres)`;
-});</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- KEYDOWN EVENT -->
-        <div class="event-section">
-            <div class="event-header">keydown - Tecla Pressionada</div>
-            <div class="event-content">
-                <div class="description">
-                    <strong>O que faz:</strong> Disparado quando uma tecla é pressionada (antes de ser liberada).
-                </div>
-                
-                <div class="demo-area">
-                    <input type="text" class="input-demo" id="keydownInput" placeholder="Pressione qualquer tecla...">
-                    <div class="key-display" id="keyDisplay">Pressione uma tecla...</div>
-                    <div class="output" id="keydownOutput">Informações da tecla aparecerão aqui...</div>
-                </div>
-
-                <div class="code-section">
-                    <div class="code-title">Código JavaScript</div>
-                    <pre><code class="language-javascript">document.getElementById('keydownInput').addEventListener('keydown', function(event) {
-    const keyDisplay = document.getElementById('keyDisplay');
-    const output = document.getElementById('keydownOutput');
-    
-    keyDisplay.textContent = `Tecla: ${event.key}`;
-    output.textContent = `Código: ${event.code} | Tecla: ${event.key} | Ctrl: ${event.ctrlKey} | Shift: ${event.shiftKey}`;
-    
-    // Exemplo: detectar Enter
-    if (event.key === 'Enter') {
-        output.textContent += ' - ENTER pressionado!';
-    }
-});</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- MOUSEOVER EVENT -->
-        <div class="event-section">
-            <div class="event-header">mouseover - Mouse Sobre Elemento</div>
-            <div class="event-content">
-                <div class="description">
-                    <strong>O que faz:</strong> Disparado quando o mouse entra na área de um elemento.
-                </div>
-                
-                <div class="demo-area">
-                    <div class="demo-element" id="mouseoverDiv" style="padding: 30px; background: #17a2b8;">
-                        Passe o mouse sobre mim!
-                    </div>
-                    <div class="output" id="mouseoverOutput">Mouse fora do elemento...</div>
-                </div>
-
-                <div class="code-section">
-                    <div class="code-title">Código JavaScript</div>
-                    <pre><code class="language-javascript">const mouseDiv = document.getElementById('mouseoverDiv');
-const output = document.getElementById('mouseoverOutput');
-
-mouseDiv.addEventListener('mouseover', function() {
-    this.style.background = '#e83e8c';
-    output.textContent = 'Mouse ENTROU no elemento!';
-});
-
-mouseDiv.addEventListener('mouseout', function() {
-    this.style.background = '#17a2b8';
-    output.textContent = 'Mouse SAIU do elemento!';
-});</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- SUBMIT EVENT -->
-        <div class="event-section">
-            <div class="event-header">submit - Envio de Formulário</div>
-            <div class="event-content">
-                <div class="description">
-                    <strong>O que faz:</strong> Disparado quando um formulário é enviado (via botão submit ou Enter).
-                </div>
-                
-                <div class="demo-area">
-                    <form class="form-demo" id="demoForm">
-                        <div class="form-group">
-                            <label for="nameInput">Nome:</label>
-                            <input type="text" id="nameInput" class="input-demo" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="emailInput">Email:</label>
-                            <input type="email" id="emailInput" class="input-demo" required>
-                        </div>
-                        <button type="submit" class="demo-element">Enviar Formulário</button>
-                    </form>
-                    <div class="output" id="submitOutput">Preencha e envie o formulário...</div>
-                </div>
-
-                <div class="code-section">
-                    <div class="code-title">Código JavaScript</div>
-                    <pre><code class="language-javascript">document.getElementById('demoForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Evita o envio real do formulário
-    
-    const name = document.getElementById('nameInput').value;
-    const email = document.getElementById('emailInput').value;
-    const output = document.getElementById('submitOutput');
-    
-    output.textContent = `Formulário enviado! Nome: ${name}, Email: ${email}`;
-});</code></pre>
-                </div>
-            </div>
-        </div>
-
-        <!-- LOAD EVENT -->
-        <div class="event-section">
-            <div class="event-header">load - Carregamento Completo</div>
-            <div class="event-content">
-                <div class="description">
-                    <strong>O que faz:</strong> Disparado quando a página ou um elemento (como imagem) termina de carregar completamente.
-                </div>
-                
-                <div class="demo-area">
-                    <img id="loadImage" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNDI5NGY0Ii8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZW0gRGVtbzwvdGV4dD4KICA8L3N2Zz4K" alt="Imagem Demo" style="border-radius: 8px;">
-                    <div class="output" id="loadOutput">Aguardando carregamento...</div>
-                </div>
-
-                <div class="code-section">
-                    <div class="code-title">Código JavaScript</div>
-                    <pre><code class="language-javascript">// Evento load da página
-window.addEventListener('load', function() {
-    console.log('Página completamente carregada!');
-});
-
-// Evento load de uma imagem
-document.getElementById('loadImage').addEventListener('load', function() {
-    const output = document.getElementById('loadOutput');
-    output.textContent = 'Imagem carregada com sucesso!';
-});</code></pre>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    
-    <script>
-        // CLICK EVENT
-        document.getElementById('clickBtn').addEventListener('click', function() {
-            const output = document.getElementById('clickOutput');
-            const now = new Date().toLocaleTimeString();
-            output.textContent = `Botão clicado às ${now}!`;
-        });
+    <footer class="footer">
+        <p><strong>Professora Elisa</strong></p>
+        <p>Disciplina: Programação para Internet com Frontend</p>
+    </footer>
+</div>
 
-        // CHANGE EVENT
-        document.getElementById('changeInput').addEventListener('change', function() {
-            const output = document.getElementById('changeOutput');
-            output.textContent = `Texto alterado para: "${this.value}"`;
-        });
+<script>
+    // Adiciona efeito de ripple nos botões
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            let ripple = document.createElement('span');
+            let rect = this.getBoundingClientRect();
+            let size = Math.max(rect.width, rect.height);
+            let x = e.clientX - rect.left - size / 2;
+            let y = e.clientY - rect.top - size / 2;
 
-        document.getElementById('changeSelect').addEventListener('change', function() {
-            const output = document.getElementById('changeOutput');
-            output.textContent = `Seleção alterada para: "${this.value}"`;
-        });
+            ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: rgba(255,255,255,0.3);
+                    border-radius: 50%;
+                    left: ${x}px;
+                    top: ${y}px;
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                    pointer-events: none;
+                `;
 
-        // INPUT EVENT
-        document.getElementById('inputField').addEventListener('input', function() {
-            const output = document.getElementById('inputOutput');
-            const length = this.value.length;
-            output.textContent = `Digitando: "${this.value}" (${length} caracteres)`;
-        });
+            this.appendChild(ripple);
 
-        // KEYDOWN EVENT
-        document.getElementById('keydownInput').addEventListener('keydown', function(event) {
-            const keyDisplay = document.getElementById('keyDisplay');
-            const output = document.getElementById('keydownOutput');
-            
-            keyDisplay.textContent = `Tecla: ${event.key}`;
-            output.textContent = `Código: ${event.code} | Tecla: ${event.key} | Ctrl: ${event.ctrlKey} | Shift: ${event.shiftKey}`;
-            
-            if (event.key === 'Enter') {
-                output.textContent += ' - ENTER pressionado!';
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // CSS para animação ripple
+    const style = document.createElement('style');
+    style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
             }
-        });
+        `;
+    document.head.appendChild(style);
 
-        // MOUSEOVER EVENT
-        const mouseDiv = document.getElementById('mouseoverDiv');
-        const mouseoverOutput = document.getElementById('mouseoverOutput');
-
-        mouseDiv.addEventListener('mouseover', function() {
-            this.style.background = '#e83e8c';
-            mouseoverOutput.textContent = 'Mouse ENTROU no elemento!';
-        });
-
-        mouseDiv.addEventListener('mouseout', function() {
-            this.style.background = '#17a2b8';
-            mouseoverOutput.textContent = 'Mouse SAIU do elemento!';
-        });
-
-        // SUBMIT EVENT
-        document.getElementById('demoForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('nameInput').value;
-            const email = document.getElementById('emailInput').value;
-            const output = document.getElementById('submitOutput');
-            
-            output.textContent = `Formulário enviado! Nome: ${name}, Email: ${email}`;
-        });
-
-        // LOAD EVENT
-        document.getElementById('loadImage').addEventListener('load', function() {
-            const output = document.getElementById('loadOutput');
-            output.textContent = 'Imagem carregada com sucesso!';
-        });
-
-        // Window load event
-        window.addEventListener('load', function() {
-            console.log('Página completamente carregada!');
-        });
-    </script>
+    // Mensagem de boas-vindas
+    console.log("🎓 Bem-vindo à disciplina da Professora Elisa!");
+    console.log("💻 Programação para Internet com Frontend");
+</script>
 </body>
 </html>
