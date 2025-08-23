@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplos de Eventos DOM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .event-section {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .event-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .event-header {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            color: white;
+            padding: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .event-content {
+            padding: 25px;
+        }
+
+        .description {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .demo-area {
+            background: #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px dashed #6c757d;
+        }
+
+        .demo-element {
+            background: #007bff;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .demo-element:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .input-demo {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px;
+        }
+
+        .input-demo:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0,123,255,0.5);
+        }
+
+        .output {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            min-height: 50px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+
+        .code-section {
+            margin-top: 25px;
+        }
+
+        .code-title {
+            background: #2d3748;
+            color: white;
+            padding: 10px 15px;
+            margin: 0;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+        }
+
+        pre {
+            margin: 0 !important;
+            border-radius: 0 0 8px 8px !important;
+            font-size: 14px !important;
+        }
+
+        .event-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .draggable {
+            background: #28a745;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            cursor: move;
+            user-select: none;
+        }
+
+        .drop-zone {
+            border: 3px dashed #6c757d;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            background: #f8f9fa;
+            min-height: 100px;
+            margin: 10px;
+        }
+
+        .drop-zone.dragover {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+
+        .form-demo {
+            max-width: 400px;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .key-display {
+            background: #343a40;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Eventos DOM - Exemplos Práticos</h1>
+
+        <!-- CLICK EVENT -->
+        <div class="event-section">
+            <div class="event-header">click - Evento de Clique</div>
+            <div class="event-content">
+                <div class="description">
+                    <strong>O que faz:</strong> Disparado quando o usuário clica em um elemento (mouse ou touch).
+                </div>
+                
+                <div class="demo-area">
+                    <button class="demo-element" id="clickBtn">Clique em mim!</button>
+                    <div class="output" id="clickOutput">Aguardando clique...</div>
+                </div>
+
+                <div class="code-section">
+                    <div class="code-title">Código JavaScript</div>
+                    <pre><code class="language-javascript">document.getElementById('clickBtn').addEventListener('click', function() {
+    const output = document.getElementById('clickOutput');
+    const now = new Date().toLocaleTimeString();
+    output.textContent = `Botão clicado às ${now}!`;
+});</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHANGE EVENT -->
+        <div class="event-section">
+            <div class="event-header">change - Evento de Mudança</div>
+            <div class="event-content">
+                <div class="description">
+                    <strong>O que faz:</strong> Disparado quando o valor de um input é alterado e o elemento perde o foco.
+                </div>
+                
+                <div class="demo-area">
+                    <input type="text" class="input-demo" id="changeInput" placeholder="Digite algo e pressione Tab/Enter">
+                    <select class="input-demo" id="changeSelect">
+                        <option>Selecione uma opção</option>
+                        <option value="opcao1">Opção 1</option>
+                        <option value="opcao2">Opção 2</option>
+                        <option value="opcao3">Opção 3</option>
+                    </select>
+                    <div class="output" id="changeOutput">Nenhuma mudança detectada ainda...</div>
+                </div>
+
+                <div class="code-section">
+                    <div class="code-title">Código JavaScript</div>
+                    <pre><code class="language-javascript">// Para input de texto
+document.getElementById('changeInput').addEventListener('change', function() {
+    const output = document.getElementById('changeOutput');
+    output.textContent = `Texto alterado para: "${this.value}"`;
+});
+
+// Para select
+document.getElementById('changeSelect').addEventListener('change', function() {
+    const output = document.getElementById('changeOutput');
+    output.textContent = `Seleção alterada para: "${this.value}"`;
+});</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- INPUT EVENT -->
+        <div class="event-section">
+            <div class="event-header">input - Evento de Entrada</div>
+            <div class="event-content">
+                <div class="description">
+                    <strong>O que faz:</strong> Disparado imediatamente sempre que o valor de um input é alterado (em tempo real).
+                    <br><strong>Diferença do 'change':</strong> 'input' dispara a cada digitação, 'change' apenas quando perde o foco.
+                </div>
+                
+                <div class="demo-area">
+                    <input type="text" class="input-demo" id="inputField" placeholder="Digite em tempo real...">
+                    <div class="output" id="inputOutput">Digite algo no campo acima...</div>
+                </div>
+
+                <div class="code-section">
+                    <div class="code-title">Código JavaScript</div>
+                    <pre><code class="language-javascript">document.getElementById('inputField').addEventListener('input', function() {
+    const output = document.getElementById('inputOutput');
+    const length = this.value.length;
+    output.textContent = `Digitando: "${this.value}" (${length} caracteres)`;
+});</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- KEYDOWN EVENT -->
+        <div class="event-section">
+            <div class="event-header">keydown - Tecla Pressionada</div>
+            <div class="event-content">
+                <div class="description">
+                    <strong>O que faz:</strong> Disparado quando uma tecla é pressionada (antes de ser liberada).
+                </div>
+                
+                <div class="demo-area">
+                    <input type="text" class="input-demo" id="keydownInput" placeholder="Pressione qualquer tecla...">
+                    <div class="key-display" id="keyDisplay">Pressione uma tecla...</div>
+                    <div class="output" id="keydownOutput">Informações da tecla aparecerão aqui...</div>
+                </div>
+
+                <div class="code-section">
+                    <div class="code-title">Código JavaScript</div>
+                    <pre><code class="language-javascript">document.getElementById('keydownInput').addEventListener('keydown', function(event) {
+    const keyDisplay = document.getElementById('keyDisplay');
+    const output = document.getElementById('keydownOutput');
+    
+    keyDisplay.textContent = `Tecla: ${event.key}`;
+    output.textContent = `Código: ${event.code} | Tecla: ${event.key} | Ctrl: ${event.ctrlKey} | Shift: ${event.shiftKey}`;
+    
+    // Exemplo: detectar Enter
+    if (event.key === 'Enter') {
+        output.textContent += ' - ENTER pressionado!';
+    }
+});</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOUSEOVER EVENT -->
+        <div class="event-section">
+            <div class="event-header">mouseover - Mouse Sobre Elemento</div>
+            <div class="event-content">
+                <div class="description">
+                    <strong>O que faz:</strong> Disparado quando o mouse entra na área de um elemento.
+                </div>
+                
+                <div class="demo-area">
+                    <div class="demo-element" id="mouseoverDiv" style="padding: 30px; background: #17a2b8;">
+                        Passe o mouse sobre mim!
+                    </div>
+                    <div class="output" id="mouseoverOutput">Mouse fora do elemento...</div>
+                </div>
+
+                <div class="code-section">
+                    <div class="code-title">Código JavaScript</div>
+                    <pre><code class="language-javascript">const mouseDiv = document.getElementById('mouseoverDiv');
+const output = document.getElementById('mouseoverOutput');
+
+mouseDiv.addEventListener('mouseover', function() {
+    this.style.background = '#e83e8c';
+    output.textContent = 'Mouse ENTROU no elemento!';
+});
+
+mouseDiv.addEventListener('mouseout', function() {
+    this.style.background = '#17a2b8';
+    output.textContent = 'Mouse SAIU do elemento!';
+});</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBMIT EVENT -->
+        <div class="event-section">
+            <div class="event-header">submit - Envio de Formulário</div>
+            <div class="event-content">
+                <div class="description">
+                    <strong>O que faz:</strong> Disparado quando um formulário é enviado (via botão submit ou Enter).
+                </div>
+                
+                <div class="demo-area">
+                    <form class="form-demo" id="demoForm">
+                        <div class="form-group">
+                            <label for="nameInput">Nome:</label>
+                            <input type="text" id="nameInput" class="input-demo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emailInput">Email:</label>
+                            <input type="email" id="emailInput" class="input-demo" required>
+                        </div>
+                        <button type="submit" class="demo-element">Enviar Formulário</button>
+                    </form>
+                    <div class="output" id="submitOutput">Preencha e envie o formulário...</div>
+                </div>
+
+                <div class="code-section">
+                    <div class="code-title">Código JavaScript</div>
+                    <pre><code class="language-javascript">document.getElementById('demoForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita o envio real do formulário
+    
+    const name = document.getElementById('nameInput').value;
+    const email = document.getElementById('emailInput').value;
+    const output = document.getElementById('submitOutput');
+    
+    output.textContent = `Formulário enviado! Nome: ${name}, Email: ${email}`;
+});</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOAD EVENT -->
+        <div class="event-section">
+            <div class="event-header">load - Carregamento Completo</div>
+            <div class="event-content">
+                <div class="description">
+                    <strong>O que faz:</strong> Disparado quando a página ou um elemento (como imagem) termina de carregar completamente.
+                </div>
+                
+                <div class="demo-area">
+                    <img id="loadImage" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNDI5NGY0Ii8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZW0gRGVtbzwvdGV4dD4KICA8L3N2Zz4K" alt="Imagem Demo" style="border-radius: 8px;">
+                    <div class="output" id="loadOutput">Aguardando carregamento...</div>
+                </div>
+
+                <div class="code-section">
+                    <div class="code-title">Código JavaScript</div>
+                    <pre><code class="language-javascript">// Evento load da página
+window.addEventListener('load', function() {
+    console.log('Página completamente carregada!');
+});
+
+// Evento load de uma imagem
+document.getElementById('loadImage').addEventListener('load', function() {
+    const output = document.getElementById('loadOutput');
+    output.textContent = 'Imagem carregada com sucesso!';
+});</code></pre>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <script>
+        // CLICK EVENT
+        document.getElementById('clickBtn').addEventListener('click', function() {
+            const output = document.getElementById('clickOutput');
+            const now = new Date().toLocaleTimeString();
+            output.textContent = `Botão clicado às ${now}!`;
+        });
+
+        // CHANGE EVENT
+        document.getElementById('changeInput').addEventListener('change', function() {
+            const output = document.getElementById('changeOutput');
+            output.textContent = `Texto alterado para: "${this.value}"`;
+        });
+
+        document.getElementById('changeSelect').addEventListener('change', function() {
+            const output = document.getElementById('changeOutput');
+            output.textContent = `Seleção alterada para: "${this.value}"`;
+        });
+
+        // INPUT EVENT
+        document.getElementById('inputField').addEventListener('input', function() {
+            const output = document.getElementById('inputOutput');
+            const length = this.value.length;
+            output.textContent = `Digitando: "${this.value}" (${length} caracteres)`;
+        });
+
+        // KEYDOWN EVENT
+        document.getElementById('keydownInput').addEventListener('keydown', function(event) {
+            const keyDisplay = document.getElementById('keyDisplay');
+            const output = document.getElementById('keydownOutput');
+            
+            keyDisplay.textContent = `Tecla: ${event.key}`;
+            output.textContent = `Código: ${event.code} | Tecla: ${event.key} | Ctrl: ${event.ctrlKey} | Shift: ${event.shiftKey}`;
+            
+            if (event.key === 'Enter') {
+                output.textContent += ' - ENTER pressionado!';
+            }
+        });
+
+        // MOUSEOVER EVENT
+        const mouseDiv = document.getElementById('mouseoverDiv');
+        const mouseoverOutput = document.getElementById('mouseoverOutput');
+
+        mouseDiv.addEventListener('mouseover', function() {
+            this.style.background = '#e83e8c';
+            mouseoverOutput.textContent = 'Mouse ENTROU no elemento!';
+        });
+
+        mouseDiv.addEventListener('mouseout', function() {
+            this.style.background = '#17a2b8';
+            mouseoverOutput.textContent = 'Mouse SAIU do elemento!';
+        });
+
+        // SUBMIT EVENT
+        document.getElementById('demoForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('nameInput').value;
+            const email = document.getElementById('emailInput').value;
+            const output = document.getElementById('submitOutput');
+            
+            output.textContent = `Formulário enviado! Nome: ${name}, Email: ${email}`;
+        });
+
+        // LOAD EVENT
+        document.getElementById('loadImage').addEventListener('load', function() {
+            const output = document.getElementById('loadOutput');
+            output.textContent = 'Imagem carregada com sucesso!';
+        });
+
+        // Window load event
+        window.addEventListener('load', function() {
+            console.log('Página completamente carregada!');
+        });
+    </script>
+</body>
+</html>
