@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplos Práticos - Navegação e Otimização do DOM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin: 20px 0 15px;
+        }
+
+        .code-block {
+            background: #f8f8f8;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .result-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .result-box h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .demo-area {
+            background: #f9f9f9;
+            border: 2px dashed #ddd;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .nav-item {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-item.ativo {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .tree-demo {
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .tree-node {
+            margin-left: 20px;
+            padding: 5px;
+            border-left: 2px solid #ddd;
+        }
+
+        .performance-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .bad-code {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .good-code {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        /* Sistema de Comentários */
+        .comentarios-container {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .comentario {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .comentario .autor {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .comentario .texto {
+            margin-bottom: 10px;
+        }
+
+        .comentario .acoes {
+            display: flex;
+            gap: 10px;
+        }
+
+        .comentario .acoes button {
+            padding: 5px 15px;
+            font-size: 12px;
+        }
+
+        .respostas {
+            margin-left: 30px;
+            padding-left: 20px;
+            border-left: 2px solid #ddd;
+            margin-top: 15px;
+        }
+
+        .input-comentario {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-comentario input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        #output, #output-parent, #output-children {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            min-height: 50px;
+            font-family: monospace;
+        }
+
+        .stats {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background: white;
+            margin: 5px;
+        }
+
+        .card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .performance-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Navegação e Otimização do DOM</h1>
+        <p>Exemplos Práticos e Interativos</p>
+    </div>
+
+    <div class="container">
+        <!-- Seção 1: Estrutura DOM -->
+        <div class="section">
+            <h2>1. Estrutura Hierárquica do DOM</h2>
+            
+            <div class="code-block">
+                <pre>&lt;div class="container"&gt;     ← Elemento ancestral
+    &lt;div class="pai"&gt;       ← Elemento pai
+        &lt;p&gt;Filho 1&lt;/p&gt;     ← Elemento atual
+        &lt;p&gt;Filho 2&lt;/p&gt;     ← Elemento irmão
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+            </div>
+
+            <h3>Demonstração Interativa:</h3>
+            <div class="demo-area">
+                <div id="demo-container" style="border: 2px solid #667eea; padding: 10px; background: #f0f0f0;">
+                    Container (Avô)
+                    <div id="demo-pai" style="border: 2px solid #764ba2; padding: 10px; margin: 10px; background: white;">
+                        Pai
+                        <p id="filho1" style="background: #e3f2fd; padding: 5px; margin: 5px;">Filho 1</p>
+                        <p id="filho2" style="background: #e3f2fd; padding: 5px; margin: 5px;">Filho 2</p>
+                    </div>
+                </div>
+                <button onclick="mostrarRelacoes()">Analisar Relações</button>
+                <div id="output"></div>
+            </div>
+        </div>
+
+        <!-- Seção 2: ParentNode -->
+        <div class="section">
+            <h2>2. Navegação com parentNode</h2>
+            
+            <div class="code-block">
+                <pre>const botao = document.getElementById('meuBotao');
+const pai = botao.parentNode;
+console.log(pai.id); // Saída: "container"</pre>
+            </div>
+
+            <h3>Teste ao Vivo:</h3>
+            <div class="demo-area">
+                <div id="container-parent" style="border: 2px solid #667eea; padding: 20px;">
+                    <span>Container (ID: container-parent)</span>
+                    <div style="margin-top: 10px;">
+                        <button id="meuBotao" onclick="encontrarPai()">Clique para encontrar meu pai</button>
+                    </div>
+                </div>
+                <div id="output-parent"></div>
+            </div>
+        </div>
+
+        <!-- Seção 3: Children vs ChildNodes -->
+        <div class="section">
+            <h2>3. Children vs ChildNodes</h2>
+            
+            <div class="code-block">
+                <pre>const lista = document.getElementById('lista');
+console.log(lista.childNodes.length); // Inclui nós de texto
+console.log(lista.children.length);   // Apenas elementos HTML</pre>
+            </div>
+
+            <h3>Comparação Prática:</h3>
+            <div class="demo-area">
+                <div id="lista-demo">
+                    <p>Item 1</p>
+                    <p>Item 2</p>
+                    <p>Item 3</p>
+                </div>
+                <button onclick="compararChildrenChildNodes()">Comparar children vs childNodes</button>
+                <div id="output-children"></div>
+            </div>
+        </div>
+
+        <!-- Seção 4: Siblings -->
+        <div class="section">
+            <h2>4. Navegação entre Irmãos (Siblings)</h2>
+            
+            <div class="code-block">
+                <pre>function navegarProximo(elementoAtual) {
+    const proximo = elementoAtual.nextElementSibling;
+    
+    if (proximo) {
+        elementoAtual.classList.remove('ativo');
+        proximo.classList.add('ativo');
+    } else {
+        // Retorna ao primeiro elemento
+        elementoAtual.classList.remove('ativo');
+        elementoAtual.parentNode.firstElementChild.classList.add('ativo');
+    }
+}</pre>
+            </div>
+
+            <h3>Navegação Interativa:</h3>
+            <div class="demo-area">
+                <div id="nav-lista">
+                    <span class="nav-item ativo">Home</span>
+                    <span class="nav-item">Produtos</span>
+                    <span class="nav-item">Serviços</span>
+                    <span class="nav-item">Sobre</span>
+                    <span class="nav-item">Contato</span>
+                </div>
+                <div style="margin-top: 15px;">
+                    <button onclick="navegarAnteriorDemo()">← Anterior</button>
+                    <button onclick="navegarProximoDemo()">Próximo →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 5: Performance -->
+        <div class="section">
+            <h2>5. Otimização de Performance</h2>
+            
+            <div class="performance-comparison">
+                <div class="bad-code">
+                    <h4>❌ Código Ineficiente</h4>
+                    <pre>for(let i = 0; i < 100; i++) {
+    document.getElementById('lista')
+        .innerHTML += '&lt;li&gt;Item ' + i + '&lt;/li&gt;';
+}</pre>
+                </div>
+                <div class="good-code">
+                    <h4>✅ Código Otimizado</h4>
+                    <pre>const lista = document.getElementById('lista');
+let conteudo = '';
+for(let i = 0; i < 100; i++) {
+    conteudo += '&lt;li&gt;Item ' + i + '&lt;/li&gt;';
+}
+lista.innerHTML = conteudo;</pre>
+                </div>
+            </div>
+
+            <h3>Teste de Performance:</h3>
+            <div class="demo-area">
+                <button onclick="testeIneficiente()">Teste Ineficiente (100 items)</button>
+                <button onclick="testeOtimizado()">Teste Otimizado (100 items)</button>
+                <button onclick="limparLista()">Limpar Lista</button>
+                <div class="stats" id="stats"></div>
+                <ul id="lista-performance" style="max-height: 200px; overflow-y: auto;"></ul>
+            </div>
+        </div>
+
+        <!-- Seção 6: DocumentFragment -->
+        <div class="section">
+            <h2>6. DocumentFragment</h2>
+            
+            <div class="code-block">
+                <pre>const fragment = document.createDocumentFragment();
+for(let i = 0; i < 1000; i++) {
+    const li = document.createElement('li');
+    li.textContent = 'Item ' + i;
+    fragment.appendChild(li);
+}
+document.getElementById('lista').appendChild(fragment);</pre>
+            </div>
+
+            <h3>Demonstração com Fragment:</h3>
+            <div class="demo-area">
+                <button onclick="adicionarComFragment()">Adicionar 500 items com Fragment</button>
+                <button onclick="limparListaFragment()">Limpar</button>
+                <div id="stats-fragment" class="stats"></div>
+                <ul id="lista-fragment" style="max-height: 200px; overflow-y: auto;"></ul>
+            </div>
+        </div>
+
+        <!-- Seção 7: Criação Dinâmica -->
+        <div class="section">
+            <h2>7. Criação Dinâmica de Elementos</h2>
+            
+            <div class="code-block">
+                <pre>const card = document.createElement('div');
+card.className = 'card';
+card.id = 'card-produto';
+
+const titulo = document.createElement('h3');
+titulo.textContent = 'Nome do Produto';
+
+const preco = document.createElement('p');
+preco.textContent = 'R$ 99,90';
+
+card.appendChild(titulo);
+card.appendChild(preco);</pre>
+            </div>
+
+            <h3>Criar Card Dinâmico:</h3>
+            <div class="demo-area">
+                <input type="text" id="nome-produto" placeholder="Nome do produto" style="padding: 8px; margin: 5px;">
+                <input type="text" id="preco-produto" placeholder="Preço" style="padding: 8px; margin: 5px;">
+                <button onclick="criarCard()">Criar Card</button>
+                <div id="cards-container" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;"></div>
+            </div>
+        </div>
+
+        <!-- Seção 8: Sistema de Comentários Completo -->
+        <div class="section">
+            <h2>8. Sistema de Comentários - Implementação Completa</h2>
+            
+            <div class="code-block">
+                <pre>class SistemaComentarios {
+    constructor() {
+        this.container = document.getElementById('comentarios');
+        this.comentarioId = 0;
+    }
+
+    adicionarComentario(texto, autor, comentarioPai = null) {
+        const comentario = document.createElement('div');
+        comentario.className = 'comentario';
+        comentario.id = 'com-' + this.comentarioId++;
+        
+        const autorEl = document.createElement('div');
+        autorEl.className = 'autor';
+        autorEl.textContent = autor;
+        
+        const textoEl = document.createElement('div');
+        textoEl.className = 'texto';
+        textoEl.textContent = texto;
+        
+        const acoes = document.createElement('div');
+        acoes.className = 'acoes';
+        acoes.innerHTML = `
+            &lt;button onclick="responderComentario('${comentario.id}')"&gt;Responder&lt;/button&gt;
+            &lt;button onclick="removerComentario('${comentario.id}')"&gt;Remover&lt;/button&gt;
+        `;
+        
+        comentario.appendChild(autorEl);
+        comentario.appendChild(textoEl);
+        comentario.appendChild(acoes);
+        
+        if (comentarioPai) {
+            let respostas = comentarioPai.querySelector('.respostas');
+            if (!respostas) {
+                respostas = document.createElement('div');
+                respostas.className = 'respostas';
+                comentarioPai.appendChild(respostas);
+            }
+            respostas.appendChild(comentario);
+        } else {
+            this.container.appendChild(comentario);
+        }
+        
+        return comentario;
+    }
+}</pre>
+            </div>
+
+            <h3>Sistema de Comentários Funcionando:</h3>
+            <div class="demo-area">
+                <div class="input-comentario">
+                    <input type="text" id="autor-input" placeholder="Seu nome" style="width: 150px;">
+                    <input type="text" id="comentario-input" placeholder="Digite seu comentário...">
+                    <button onclick="adicionarNovoComentario()">Comentar</button>
+                </div>
+                
+                <div id="comentarios" class="comentarios-container">
+                    <!-- Comentários aparecerão aqui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 9: Clonagem de Elementos -->
+        <div class="section">
+            <h2>9. Clonagem de Elementos</h2>
+            
+            <div class="code-block">
+                <pre>const template = document.getElementById('card-template');
+const novoCard = template.cloneNode(true);
+novoCard.id = 'card-' + Date.now();
+document.body.appendChild(novoCard);</pre>
+            </div>
+
+            <h3>Demonstração de Clonagem:</h3>
+            <div class="demo-area">
+                <div id="template-original" style="border: 2px solid #667eea; padding: 10px; margin: 10px; background: #f0f4ff;">
+                    <h4>Template Original</h4>
+                    <p>Este é um template que será clonado</p>
+                    <button>Botão do Template</button>
+                </div>
+                <button onclick="clonarTemplate()">Clonar Template</button>
+                <div id="clones-container"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+
+</body>
+</html>
