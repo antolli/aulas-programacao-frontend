@@ -270,6 +270,3 @@
             sistema.adicionarComentario('Concordo! Muito útil para aprender', 'Pedro', com2);
             sistema.adicionarComentario('Os exemplos são bem práticos', 'Ana');
         });
-
-
-

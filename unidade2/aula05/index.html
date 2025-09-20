@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Painel Responsivo — Exemplo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="header">
+        <strong>Painel</strong>
+        <button id="toggle">Menu</button>
+    </header>
+    <div class="container">
+        <nav class="nav" id="nav">
+            <h3>Navegação</h3>
+            <ul style="margin:0;padding-left:18px;line-height:1.9">
+                <li>Dashboard</li>
+                <li>Relatórios</li>
+                <li>Usuários</li>
+                <li>Configurações</li>
+            </ul>
+        </nav>
+        <main class="main">
+            <h1 class="title">Indicadores</h1>
+            <section class="cards">
+                <div class="card">Card 1</div>
+                <div class="card">Card 2</div>
+                <div class="card">Card 3</div>
+                <div class="card">Card 4</div>
+                <div class="card">Card 5</div>
+                <div class="card">Card 6</div>
+            </section>
+        </main>
+        <aside class="aside">
+            <strong>Widgets</strong>
+            <p style="margin-top:8px">Área auxiliar para filtros e atalhos.</p>
+        </aside>
+    </div>
+    <script>
+        const btn = document.getElementById('toggle');
+        const nav = document.getElementById('nav');
+        btn.addEventListener('click', () => { nav.classList.toggle('open') });
+    </script>
+</body>
+
+</html>
