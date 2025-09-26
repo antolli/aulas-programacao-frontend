@@ -115,3 +115,31 @@ button {
 a {
     color: inherit
 }
+
+/* Estado inicial do menu */
+.nav-menu {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    
+    opacity: 0;
+    transform: translateY(-20px);
+    visibility: hidden;
+    
+    transition: opacity 0.4s ease,
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.4s;
+}
+
+/* Estado ativo do menu */
+.nav-menu.active {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+transition-timing-function: steps(5, end);
+}
+
+
