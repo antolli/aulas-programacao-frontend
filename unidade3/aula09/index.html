@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exemplo Prático: Formulário com Validação</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 2em;
+    }
+
+    .subtitle {
+      color: #7f8c8d;
+      margin-bottom: 30px;
+      font-size: 1.1em;
+    }
+
+    fieldset {
+      border: 2px solid #ecf0f1;
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+
+    legend {
+      color: #2c3e50;
+      font-size: 1.3em;
+      font-weight: bold;
+      padding: 0 10px;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      color: #2c3e50;
+      font-weight: 600;
+      font-size: 1em;
+    }
+
+    label:first-of-type {
+      margin-top: 0;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #bdc3c7;
+      border-radius: 5px;
+      font-size: 1em;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    input:valid {
+      border-color: #2ecc71;
+      background-color: rgba(46, 204, 113, 0.05);
+    }
+
+    input:invalid:not(:placeholder-shown) {
+      border-color: #e74c3c;
+      background-color: rgba(231, 76, 60, 0.05);
+    }
+
+    small {
+      display: block;
+      margin-top: 6px;
+      color: #7f8c8d;
+      font-size: 0.9em;
+    }
+
+    .error-message {
+      display: none;
+      margin-top: 6px;
+      padding: 8px 12px;
+      background-color: #fadbd8;
+      color: #c0392b;
+      border-radius: 4px;
+      font-size: 0.9em;
+      border-left: 3px solid #e74c3c;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .success-message {
+      display: none;
+      margin-top: 6px;
+      padding: 8px 12px;
+      background-color: #d5f4e6;
+      color: #229954;
+      border-radius: 4px;
+      font-size: 0.9em;
+      border-left: 3px solid #2ecc71;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 25px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .form-status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      display: none;
+      font-weight: 600;
+    }
+
+    .form-status.success {
+      background-color: #d5f4e6;
+      color: #229954;
+      border-left: 4px solid #2ecc71;
+      display: block;
+    }
+
+    .form-status.error {
+      background-color: #fadbd8;
+      color: #c0392b;
+      border-left: 4px solid #e74c3c;
+      display: block;
+    }
+
+    .info-box {
+      background: #ecf0f1;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 25px;
+      color: #2c3e50;
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+
+    .info-box strong {
+      color: #667eea;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px;
+      }
+
+      h1 {
+        font-size: 1.6em;
+      }
+
+      fieldset {
+        padding: 20px;
+      }
+
+      legend {
+        font-size: 1.1em;
+      }
+
+      input {
+        padding: 10px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Formulário de Inscrição</h1>
+  <p class="subtitle">Preencha os dados abaixo</p>
+
+  <div class="info-box">
+    <strong>Como usar:</strong> Teste a validação preenchendo os campos abaixo. Observe como o navegador valida os dados em tempo real e exibe mensagens claras de orientação.
+  </div>
+
+  <form id="inscricao">
+    <fieldset>
+      <legend>Dados Pessoais</legend>
+
+      <label for="email">E-mail</label>
+      <input
+        id="email"
+        type="email"
+        required
+        aria-describedby="email-help email-error"
+        placeholder="seu.email@dominio.com"
+      >
+      <small id="email-help">Use um e-mail válido (exemplo: nome@dominio.com)</small>
+      <div id="email-error" class="error-message" role="alert"></div>
+      <div id="email-success" class="success-message"></div>
+
+      <label for="tel">Telefone</label>
+      <input
+        id="tel"
+        type="tel"
+        pattern="\d{10,11}"
+        inputmode="numeric"
+        aria-describedby="tel-help tel-error"
+        placeholder="11999999999"
+      >
+      <small id="tel-help">Apenas dígitos (DDD + número): 10 ou 11 dígitos</small>
+      <div id="tel-error" class="error-message" role="alert"></div>
+      <div id="tel-success" class="success-message"></div>
+
+      <label for="nome">Nome completo</label>
+      <input
+        id="nome"
+        type="text"
+        required
+        minlength="3"
+        aria-describedby="nome-help nome-error"
+        placeholder="João Silva"
+      >
+      <small id="nome-help">Informe nome e sobrenome</small>
+      <div id="nome-error" class="error-message" role="alert"></div>
+      <div id="nome-success" class="success-message"></div>
+
+      <label for="nasc">Data de nascimento</label>
+      <input
+        id="nasc"
+        type="date"
+        required
+        max="2007-12-31"
+        aria-describedby="nasc-help nasc-error"
+      >
+      <small id="nasc-help">Você deve ter pelo menos 18 anos</small>
+      <div id="nasc-error" class="error-message" role="alert"></div>
+      <div id="nasc-success" class="success-message"></div>
+
+      <label for="valor">Valor (R$)</label>
+      <input
+        id="valor"
+        type="number"
+        min="0"
+        step="0.01"
+        aria-describedby="valor-help valor-error"
+        placeholder="0,00"
+      >
+      <small id="valor-help">Use apenas números positivos com até 2 casas decimais</small>
+      <div id="valor-error" class="error-message" role="alert"></div>
+      <div id="valor-success" class="success-message"></div>
+
+    </fieldset>
+
+    <button type="submit">Enviar Formulário</button>
+  </form>
+
+  <div id="form-status" class="form-status"></div>
+</div>
+
+<script>
+  const form = document.getElementById('inscricao');
+  const formStatus = document.getElementById('form-status');
+
+  // Configuração dos campos
+  const campos = [
+    {
+      id: 'email',
+      validadores: [
+        { tipo: 'typeMismatch', mensagem: 'Use um endereço de e-mail válido (exemplo: nome@dominio.com)' }
+      ]
+    },
+    {
+      id: 'tel',
+      validadores: [
+        { tipo: 'patternMismatch', mensagem: 'Use apenas dígitos. Mínimo de 10 e máximo de 11 caracteres' }
+      ]
+    },
+    {
+      id: 'nome',
+      validadores: [
+        { tipo: 'valueMissing', mensagem: 'O nome é obrigatório' },
+        { tipo: 'tooShort', mensagem: 'O nome deve ter pelo menos 3 caracteres' }
+      ]
+    },
+    {
+      id: 'nasc',
+      validadores: [
+        { tipo: 'valueMissing', mensagem: 'A data de nascimento é obrigatória' },
+        { tipo: 'rangeOverflow', mensagem: 'Você deve ter pelo menos 18 anos' }
+      ]
+    },
+    {
+      id: 'valor',
+      validadores: [
+        { tipo: 'rangeUnderflow', mensagem: 'O valor não pode ser negativo' },
+        { tipo: 'stepMismatch', mensagem: 'Use até 2 casas decimais' }
+      ]
+    }
+  ];
+
+  // Função para validar um campo específico
+  function validarCampo(campo) {
+    const input = document.getElementById(campo.id);
+    const errorDiv = document.getElementById(campo.id + '-error');
+    const successDiv = document.getElementById(campo.id + '-success');
+
+    errorDiv.classList.remove('show');
+    errorDiv.textContent = '';
+    successDiv.classList.remove('show');
+    successDiv.textContent = '';
+
+    // Se o campo está vazio e não é obrigatório, não valida
+    if (!input.value && !input.hasAttribute('required')) {
+      return true;
+    }
+
+    // Verifica cada validador
+    for (let validador of campo.validadores) {
+      let invalido = false;
+
+      if (validador.tipo === 'typeMismatch') {
+        invalido = input.validity.typeMismatch;
+      } else if (validador.tipo === 'patternMismatch') {
+        invalido = input.validity.patternMismatch;
+      } else if (validador.tipo === 'valueMissing') {
+        invalido = input.validity.valueMissing;
+      } else if (validador.tipo === 'tooShort') {
+        invalido = input.validity.tooShort;
+      } else if (validador.tipo === 'rangeOverflow') {
+        invalido = input.validity.rangeOverflow;
+      } else if (validador.tipo === 'rangeUnderflow') {
+        invalido = input.validity.rangeUnderflow;
+      } else if (validador.tipo === 'stepMismatch') {
+        invalido = input.validity.stepMismatch;
+      }
+
+      if (invalido) {
+        errorDiv.textContent = validador.mensagem;
+        errorDiv.classList.add('show');
+        input.setCustomValidity(validador.mensagem);
+        return false;
+      }
+    }
+
+    // Se chegou aqui, o campo é válido
+    successDiv.textContent = '✓ Válido';
+    successDiv.classList.add('show');
+    input.setCustomValidity('');
+    return true;
+  }
+
+  // Adiciona listeners para validação em tempo real
+  campos.forEach(campo => {
+    const input = document.getElementById(campo.id);
+
+    input.addEventListener('input', () => {
+      validarCampo(campo);
+    });
+
+    input.addEventListener('blur', () => {
+      validarCampo(campo);
+    });
+  });
+
+  // Valida o formulário no envio
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    formStatus.classList.remove('success', 'error');
+    formStatus.textContent = '';
+
+    // Valida todos os campos
+    let todosValidos = true;
+    for (let campo of campos) {
+      if (!validarCampo(campo)) {
+        todosValidos = false;
+      }
+    }
+
+    if (todosValidos) {
+      formStatus.textContent = 'Formulário enviado com sucesso!';
+      formStatus.classList.add('success');
+
+      // Reseta o formulário após 2 segundos
+      setTimeout(() => {
+        form.reset();
+        formStatus.textContent = '';
+        formStatus.classList.remove('success');
+
+        // Remove mensagens de sucesso dos campos
+        document.querySelectorAll('.success-message').forEach(msg => {
+          msg.classList.remove('show');
+        });
+      }, 2000);
+    } else {
+      formStatus.textContent = 'Corrija os erros no formulário antes de enviar.';
+      formStatus.classList.add('error');
+    }
+  });
+
+  // Limpa a mensagem de status quando o usuário volta a editar após erro
+  form.addEventListener('input', () => {
+    if (formStatus.classList.contains('error')) {
+      formStatus.textContent = '';
+      formStatus.classList.remove('error');
+    }
+  });
+</script>
+
+</body>
+</html>
