@@ -1,0 +1,171 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 100%;
+}
+
+h1 {
+    color: #667eea;
+    margin-bottom: 10px;
+    font-size: 2em;
+}
+
+p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    padding-right: 45px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: all 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+input.valido {
+    border-color: #28a745;
+    background-color: #f0fff4;
+}
+
+input.invalido {
+    border-color: #dc3545;
+    background-color: #fff5f5;
+}
+
+.icone-validacao {
+    position: absolute;
+    right: 12px;
+    font-size: 1.3em;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+input.valido + .icone-validacao {
+    opacity: 1;
+    color: #28a745;
+}
+
+input.valido + .icone-validacao::before {
+    content: "✓";
+}
+
+input.invalido + .icone-validacao {
+    opacity: 1;
+    color: #dc3545;
+}
+
+input.invalido + .icone-validacao::before {
+    content: "✗";
+}
+
+.mensagem-erro {
+    display: block;
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 5px;
+    min-height: 20px;
+}
+
+.mensagem-erro:empty {
+    display: none;
+}
+
+.requisitos-senha {
+    list-style: none;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.requisitos-senha li {
+    padding: 5px 0;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.requisitos-senha li::before {
+    content: "○ ";
+    color: #999;
+    margin-right: 5px;
+}
+
+.requisitos-senha li.atendido {
+    color: #28a745;
+}
+
+.requisitos-senha li.atendido::before {
+    content: "✓ ";
+    color: #28a745;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #667eea;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #764ba2;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

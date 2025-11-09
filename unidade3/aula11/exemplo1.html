@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo 1 - Validação HTML5 Nativa</title>
+    <link rel="stylesheet" href="exemplo1.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Validação HTML5 Nativa</h1>
+        <p>Teste a validação nativa do navegador</p>
+        
+        <form id="form-html5">
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email"
+                    required 
+                    placeholder="seu@email.com"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="idade">Idade (18-100):</label>
+                <input 
+                    type="number" 
+                    id="idade" 
+                    name="idade"
+                    min="18" 
+                    max="100" 
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha (mínimo 8 caracteres):</label>
+                <input 
+                    type="password" 
+                    id="senha" 
+                    name="senha"
+                    minlength="8"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="site">Website:</label>
+                <input 
+                    type="url" 
+                    id="site" 
+                    name="site"
+                    placeholder="https://exemplo.com"
+                >
+            </div>
+
+            <button type="submit">Testar Validação</button>
+        </form>
+    </div>
+
+    <script src="exemplo1.js"></script>
+</body>
+</html>
