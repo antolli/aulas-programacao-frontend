@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professora Elisa - Programação para Internet com Frontend</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,239 +15,171 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Playfair Display', 'Georgia', serif;
+            line-height: 1.7;
+            background: #faf8f9;
             min-height: 100vh;
-            padding: 20px;
+            color: #3d2a4a;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            backdrop-filter: blur(10px);
+            background: #ffffff;
+            min-height: 100vh;
         }
 
         .header {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            color: white;
-            padding: 40px 30px;
+            background: #ffffff;
+            color: #212529;
+            padding: 60px 40px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                    45deg,
-                    transparent,
-                    transparent 10px,
-                    rgba(255,255,255,0.05) 10px,
-                    rgba(255,255,255,0.05) 20px
-            );
-        }
-
-        @keyframes movePattern {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
+            border-bottom: 1px solid #dee2e6;
         }
 
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: #4B0082;
         }
 
         .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
+            font-size: 1.3rem;
+            opacity: 0.95;
+            font-weight: 400;
         }
 
         .content {
-            padding: 40px 30px;
+            padding: 50px 40px;
         }
 
-        .units-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .unit {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .unit::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .unit:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            border-color: rgba(102, 126, 234, 0.3);
-        }
-
-        .unit:hover::before {
-            transform: scaleX(1);
-        }
-
-        .unit h3 {
-            color: #2c3e50;
-            font-size: 1.4rem;
-            margin-bottom: 20px;
+        .professor-info {
+            background: #ffffff;
+            color: #212529;
+            padding: 30px;
+            border-radius: 0.375rem;
+            margin-bottom: 50px;
             text-align: center;
+            border: 1px solid #dee2e6;
+            border-left: 3px solid #b19cd9;
+        }
+
+        .professor-info h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
             font-weight: 600;
         }
 
-        .buttons-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+        .professor-info p {
+            font-size: 1.1rem;
+            color: #6c757d;
+        }
+
+        .units-list {
+            list-style: none;
+        }
+
+        .unit-item {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e8dce8;
+            padding-bottom: 30px;
+        }
+
+        .unit-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .unit-title {
+            font-size: 2rem;
+            color: #212529;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .lessons-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
             gap: 12px;
         }
 
-        .btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .lesson-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #ffffff;
+            color: #212529;
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.15s ease-in-out;
+            border: 1px solid #dee2e6;
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn:hover {
+        .lesson-link:hover {
+            background: #b19cd9;
+            color: #ffffff;
+            border-color: #b19cd9;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-            background: linear-gradient(135deg, #5a6fd8, #6a4c93);
+            box-shadow: 0 4px 12px rgba(177, 156, 217, 0.2);
         }
 
-        .btn:hover::before {
-            left: 100%;
+        .lesson-link.resumo {
+            background: #b19cd9;
+            color: #ffffff;
+            border-color: #b19cd9;
         }
 
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn.resumo {
-           /* grid-column: 1 / -1;*/
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            font-weight: 600;
-        }
-
-        .btn.resumo:hover {
-            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+        .lesson-link.resumo:hover {
+            background: #9d8ac5;
+            border-color: #9d8ac5;
         }
 
         .footer {
             text-align: center;
-            padding: 30px;
+            padding: 40px;
             background: #f8f9fa;
             color: #6c757d;
-            border-top: 1px solid #e9ecef;
+            border-top: 1px solid #dee2e6;
         }
 
         .footer p {
-            margin-bottom: 10px;
-        }
-
-        .professor-info {
-            background: linear-gradient(135deg, #4d0355 0%, #f5576c 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            text-align: center;
+            margin-bottom: 8px;
+            font-size: 1rem;
         }
 
         @media (max-width: 768px) {
+            .header {
+                padding: 40px 20px;
+            }
+
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
 
             .header p {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
 
             .content {
                 padding: 30px 20px;
             }
 
-            .units-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .unit-title {
+                font-size: 1.6rem;
             }
 
-            .buttons-grid {
-                grid-template-columns: 1fr;
+            .lessons-list {
+                flex-direction: column;
             }
-        }
 
-        /* Animação de entrada */
-        .unit {
-            animation: fadeInUp 0.6s ease forwards;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .unit:nth-child(1) { animation-delay: 0.1s; }
-        .unit:nth-child(2) { animation-delay: 0.2s; }
-        .unit:nth-child(3) { animation-delay: 0.3s; }
-        .unit:nth-child(4) { animation-delay: 0.4s; }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .lesson-link {
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
@@ -259,48 +194,44 @@
     <div class="content">
         <div class="professor-info">
             <h2>Bem-vindos à disciplina!</h2>
-            <p>Aqui você encontrará todo o material organizado por unidades. Clique nos botões para acessar o conteúdo de cada aula.</p>
+            <p>Aqui você encontrará todo o material organizado por unidades. Clique nos links para acessar o conteúdo de cada aula.</p>
         </div>
 
-        <div class="units-grid">
-            <!-- Unidade 1 -->
-            <div class="unit">
-                <h3>Unidade 1</h3>
-                <div class="buttons-grid">
-                    <a href="unidade1/aula02/eventos.html" class="btn">Aula 02 - Eventos</a>
-                    <a href="unidade1/aula02/formularios.html" class="btn">Aula 02 - Forms</a>
-                    <a href="unidade1/aula03/index.html" class="btn">Aula 03</a>
-                    <a href="unidade1/encerramento/index.html" class="btn resumo">Resumo</a>
-                </div>
-            </div>
+        <ul class="units-list">
+            <li class="unit-item">
+                <h2 class="unit-title">Unidade 1</h2>
+                <ul class="lessons-list">
+                    <li><a href="unidade1/aula02/eventos.html" class="lesson-link">Aula 02 - Eventos DOM</a></li>
+                    <li><a href="unidade1/aula02/formularios.html" class="lesson-link">Aula 02 - Validação de Formulários</a></li>
+                    <li><a href="unidade1/aula03/index.html" class="lesson-link">Aula 03 - Navegação e Otimização DOM</a></li>
+                    <li><a href="unidade1/encerramento/index.html" class="lesson-link resumo">Resumo</a></li>
+                </ul>
+            </li>
 
-            <!-- Unidade 2 -->
-            <div class="unit">
-                <h3>Unidade 2</h3>
-                <div class="buttons-grid">
-                    <a href="unidade2/aula05/index.html" class="btn">Aula 05</a>
-                    <a href="unidade2/aula06/index.html" class="btn">Aula 06</a>
-                </div>
-            </div>
+            <li class="unit-item">
+                <h2 class="unit-title">Unidade 2</h2>
+                <ul class="lessons-list">
+                    <li><a href="unidade2/aula05/index.html" class="lesson-link">Aula 05 - Layout Responsivo</a></li>
+                    <li><a href="unidade2/aula06/index.html" class="lesson-link">Aula 06 - Animações e Transições CSS</a></li>
+                </ul>
+            </li>
 
-            <!-- Unidade 3 -->
-            <div class="unit">
-                <h3>Unidade 3</h3>
-                <div class="buttons-grid">
-                    <a href="unidade3/aula09/index.html" class="btn">Aula 09</a>
-                    <a href="unidade3/aula11/index.html" class="btn">Aula 11</a>
-                    <a href="unidade3/aula12/index.html" class="btn">Aula 12</a>
-                </div>
-            </div>
+            <li class="unit-item">
+                <h2 class="unit-title">Unidade 3</h2>
+                <ul class="lessons-list">
+                    <li><a href="unidade3/aula09/index.html" class="lesson-link">Aula 09 - Validação HTML5</a></li>
+                    <li><a href="unidade3/aula11/index.html" class="lesson-link">Aula 11 - Validação de Formulários</a></li>
+                    <li><a href="unidade3/aula12/index.html" class="lesson-link">Aula 12 - Timeline Otimizada</a></li>
+                </ul>
+            </li>
 
-            <!-- Unidade 4 -->
-            <div class="unit">
-                <h3>Unidade 4</h3>
-                <div class="buttons-grid">
-                    <a href="unidade4/aula13/index.html" class="btn">Aula 13</a>
-                </div>
-            </div>
-        </div>
+            <li class="unit-item">
+                <h2 class="unit-title">Unidade 4</h2>
+                <ul class="lessons-list">
+                    <li><a href="unidade4/aula13/index.html" class="lesson-link">Aula 13 - Previsão do Tempo (Async/Await)</a></li>
+                </ul>
+            </li>
+        </ul>
     </div>
 
     <footer class="footer">
@@ -308,54 +239,6 @@
         <p>Disciplina: Programação para Internet com Frontend</p>
     </footer>
 </div>
-
-<script>
-    // Adiciona efeito de ripple nos botões
-    document.querySelectorAll('.btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            let ripple = document.createElement('span');
-            let rect = this.getBoundingClientRect();
-            let size = Math.max(rect.width, rect.height);
-            let x = e.clientX - rect.left - size / 2;
-            let y = e.clientY - rect.top - size / 2;
-
-            ripple.style.cssText = `
-                    position: absolute;
-                    width: ${size}px;
-                    height: ${size}px;
-                    background: rgba(255,255,255,0.3);
-                    border-radius: 50%;
-                    left: ${x}px;
-                    top: ${y}px;
-                    transform: scale(0);
-                    animation: ripple 0.6s ease-out;
-                    pointer-events: none;
-                `;
-
-            this.appendChild(ripple);
-
-            setTimeout(() => ripple.remove(), 600);
-        });
-    });
-
-    // CSS para animação ripple
-    const style = document.createElement('style');
-    style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(2);
-                    opacity: 0;
-                }
-            }
-        `;
-    document.head.appendChild(style);
-
-    // Mensagem de boas-vindas
-    console.log("🎓 Bem-vindo à disciplina da Professora Elisa!");
-    console.log("💻 Programação para Internet com Frontend");
-    
-</script>
-
 </body>
 </html>
 

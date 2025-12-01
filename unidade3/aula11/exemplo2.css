@@ -5,33 +5,36 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f8f9fa;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 2rem 1rem;
 }
 
 .container {
-    background: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #dee2e6;
     max-width: 500px;
     width: 100%;
 }
 
 h1 {
-    color: #667eea;
-    margin-bottom: 10px;
-    font-size: 2em;
+    font-family: 'Playfair Display', serif;
+    color: #212529;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    font-weight: 600;
 }
 
 p {
-    color: #666;
-    margin-bottom: 30px;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
 }
 
 .form-group {
@@ -40,9 +43,10 @@ p {
 
 label {
     display: block;
-    margin-bottom: 8px;
-    color: #333;
-    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #212529;
+    font-weight: 500;
+    font-size: 0.9375rem;
 }
 
 .input-wrapper {
@@ -53,40 +57,42 @@ label {
 
 input {
     width: 100%;
-    padding: 12px;
-    padding-right: 45px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    font-size: 1em;
-    transition: all 0.3s;
+    padding: 0.5rem 0.75rem;
+    padding-right: 2.8125rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    font-size: 0.9375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    background: #ffffff;
 }
 
 input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #b19cd9;
+    box-shadow: 0 0 0 0.2rem rgba(177, 156, 217, 0.25);
 }
 
 input.valido {
-    border-color: #28a745;
-    background-color: #f0fff4;
+    border-color: #198754;
+    background-color: #d1e7dd;
 }
 
 input.invalido {
     border-color: #dc3545;
-    background-color: #fff5f5;
+    background-color: #f8d7da;
 }
 
 .icone-validacao {
     position: absolute;
-    right: 12px;
-    font-size: 1.3em;
+    right: 0.75rem;
+    font-size: 1.25rem;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.15s ease-in-out;
 }
 
 input.valido + .icone-validacao {
     opacity: 1;
-    color: #28a745;
+    color: #198754;
 }
 
 input.valido + .icone-validacao::before {
@@ -104,10 +110,10 @@ input.invalido + .icone-validacao::before {
 
 .mensagem-erro {
     display: block;
-    color: #dc3545;
-    font-size: 0.9em;
-    margin-top: 5px;
-    min-height: 20px;
+    color: #721c24;
+    font-size: 0.875rem;
+    margin-top: 0.3125rem;
+    min-height: 1.25rem;
 }
 
 .mensagem-erro:empty {
@@ -116,16 +122,17 @@ input.invalido + .icone-validacao::before {
 
 .requisitos-senha {
     list-style: none;
-    margin-top: 10px;
-    padding: 10px;
+    margin-top: 0.625rem;
+    padding: 0.625rem;
     background-color: #f8f9fa;
-    border-radius: 5px;
+    border-radius: 0.375rem;
+    border: 1px solid #dee2e6;
 }
 
 .requisitos-senha li {
-    padding: 5px 0;
-    color: #666;
-    font-size: 0.9em;
+    padding: 0.3125rem 0;
+    color: #6c757d;
+    font-size: 0.875rem;
 }
 
 .requisitos-senha li::before {
@@ -135,30 +142,30 @@ input.invalido + .icone-validacao::before {
 }
 
 .requisitos-senha li.atendido {
-    color: #28a745;
+    color: #198754;
 }
 
 .requisitos-senha li.atendido::before {
     content: "✓ ";
-    color: #28a745;
+    color: #198754;
 }
 
 button {
     width: 100%;
-    padding: 15px;
-    background-color: #667eea;
-    color: white;
+    padding: 0.625rem 1.25rem;
+    background-color: #b19cd9;
+    color: #ffffff;
     border: none;
-    border-radius: 5px;
-    font-size: 1.1em;
-    font-weight: bold;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 10px;
+    transition: background-color 0.15s ease-in-out;
+    margin-top: 0.625rem;
 }
 
 button:hover {
-    background-color: #764ba2;
+    background-color: #9d8ac5;
 }
 
 button:active {
@@ -166,6 +173,6 @@ button:active {
 }
 
 button:disabled {
-    background-color: #ccc;
+    background-color: #6c757d;
     cursor: not-allowed;
 }

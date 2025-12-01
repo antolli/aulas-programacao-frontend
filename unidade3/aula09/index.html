@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Exemplo Prático: Formulário com Validação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -12,54 +15,74 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8f9fa;
       min-height: 100vh;
-      padding: 40px 20px;
+      padding: 2rem 1rem;
     }
 
     .container {
       max-width: 600px;
       margin: 0 auto;
-      background: white;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 0.375rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border: 1px solid #dee2e6;
     }
 
     h1 {
-      color: #2c3e50;
-      margin-bottom: 10px;
-      font-size: 2em;
+      font-family: 'Playfair Display', serif;
+      color: #212529;
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+      font-weight: 600;
     }
 
     .subtitle {
-      color: #7f8c8d;
-      margin-bottom: 30px;
-      font-size: 1.1em;
+      color: #6c757d;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+    
+    .back-button {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      padding: 0.5rem 1rem;
+      background: #b19cd9;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      transition: background-color 0.15s ease-in-out;
+    }
+    
+    .back-button:hover {
+      background: #9d8ac5;
     }
 
     fieldset {
-      border: 2px solid #ecf0f1;
-      border-radius: 8px;
-      padding: 25px;
-      margin-bottom: 20px;
+      border: 1px solid #dee2e6;
+      border-radius: 0.375rem;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
     }
 
     legend {
-      color: #2c3e50;
-      font-size: 1.3em;
-      font-weight: bold;
-      padding: 0 10px;
+      font-family: 'Playfair Display', serif;
+      color: #212529;
+      font-size: 1.25rem;
+      font-weight: 600;
+      padding: 0 0.625rem;
     }
 
     label {
       display: block;
-      margin-top: 20px;
-      margin-bottom: 8px;
-      color: #2c3e50;
-      font-weight: 600;
-      font-size: 1em;
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #212529;
+      font-weight: 500;
+      font-size: 0.9375rem;
     }
 
     label:first-of-type {
@@ -68,18 +91,19 @@
 
     input {
       width: 100%;
-      padding: 12px;
-      border: 2px solid #bdc3c7;
-      border-radius: 5px;
-      font-size: 1em;
-      transition: all 0.3s ease;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #ced4da;
+      border-radius: 0.375rem;
+      font-size: 0.9375rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
       font-family: inherit;
+      background: #ffffff;
     }
 
     input:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      border-color: #b19cd9;
+      box-shadow: 0 0 0 0.2rem rgba(177, 156, 217, 0.25);
     }
 
     input:valid {
@@ -94,20 +118,20 @@
 
     small {
       display: block;
-      margin-top: 6px;
-      color: #7f8c8d;
-      font-size: 0.9em;
+      margin-top: 0.375rem;
+      color: #6c757d;
+      font-size: 0.875rem;
     }
 
     .error-message {
       display: none;
-      margin-top: 6px;
-      padding: 8px 12px;
-      background-color: #fadbd8;
-      color: #c0392b;
-      border-radius: 4px;
-      font-size: 0.9em;
-      border-left: 3px solid #e74c3c;
+      margin-top: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      background-color: #f8d7da;
+      color: #721c24;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      border-left: 3px solid #dc3545;
     }
 
     .error-message.show {
@@ -116,13 +140,13 @@
 
     .success-message {
       display: none;
-      margin-top: 6px;
-      padding: 8px 12px;
-      background-color: #d5f4e6;
-      color: #229954;
-      border-radius: 4px;
-      font-size: 0.9em;
-      border-left: 3px solid #2ecc71;
+      margin-top: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      background-color: #d1e7dd;
+      color: #0f5132;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      border-left: 3px solid #198754;
     }
 
     .success-message.show {
@@ -131,62 +155,58 @@
 
     button {
       width: 100%;
-      padding: 14px;
-      margin-top: 25px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+      padding: 0.625rem 1.25rem;
+      margin-top: 1.5rem;
+      background: #b19cd9;
+      color: #ffffff;
       border: none;
-      border-radius: 5px;
-      font-size: 1.1em;
-      font-weight: 600;
+      border-radius: 0.375rem;
+      font-size: 1rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: background-color 0.15s ease-in-out;
     }
 
     button:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+      background: #9d8ac5;
     }
 
     button:disabled {
-      opacity: 0.6;
+      background: #6c757d;
       cursor: not-allowed;
     }
 
-    button:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
     .form-status {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 5px;
+      margin-top: 1.25rem;
+      padding: 0.9375rem;
+      border-radius: 0.375rem;
       display: none;
-      font-weight: 600;
+      font-weight: 500;
     }
 
     .form-status.success {
-      background-color: #d5f4e6;
-      color: #229954;
-      border-left: 4px solid #2ecc71;
+      background-color: #d1e7dd;
+      color: #0f5132;
+      border-left: 3px solid #198754;
       display: block;
     }
 
     .form-status.error {
-      background-color: #fadbd8;
-      color: #c0392b;
-      border-left: 4px solid #e74c3c;
+      background-color: #f8d7da;
+      color: #721c24;
+      border-left: 3px solid #dc3545;
       display: block;
     }
 
     .info-box {
-      background: #ecf0f1;
-      padding: 15px;
-      border-radius: 5px;
-      margin-bottom: 25px;
-      color: #2c3e50;
-      font-size: 0.95em;
+      background: #f8f9fa;
+      padding: 0.9375rem;
+      border-radius: 0.375rem;
+      margin-bottom: 1.5rem;
+      color: #212529;
+      font-size: 0.9375rem;
       line-height: 1.6;
+      border-left: 3px solid #b19cd9;
     }
 
     .info-box strong {
@@ -220,6 +240,7 @@
 <body>
 
 <div class="container">
+  <a href="../../index.html" class="back-button">← Voltar ao Menu</a>
   <h1>Formulário de Inscrição</h1>
   <p class="subtitle">Preencha os dados abaixo</p>
 
@@ -306,7 +327,6 @@
   const form = document.getElementById('inscricao');
   const formStatus = document.getElementById('form-status');
 
-  // Configuração dos campos
   const campos = [
     {
       id: 'email',
@@ -343,7 +363,6 @@
     }
   ];
 
-  // Função para validar um campo específico
   function validarCampo(campo) {
     const input = document.getElementById(campo.id);
     const errorDiv = document.getElementById(campo.id + '-error');
@@ -354,12 +373,10 @@
     successDiv.classList.remove('show');
     successDiv.textContent = '';
 
-    // Se o campo está vazio e não é obrigatório, não valida
     if (!input.value && !input.hasAttribute('required')) {
       return true;
     }
 
-    // Verifica cada validador
     for (let validador of campo.validadores) {
       let invalido = false;
 
@@ -387,14 +404,12 @@
       }
     }
 
-    // Se chegou aqui, o campo é válido
     successDiv.textContent = '✓ Válido';
     successDiv.classList.add('show');
     input.setCustomValidity('');
     return true;
   }
 
-  // Adiciona listeners para validação em tempo real
   campos.forEach(campo => {
     const input = document.getElementById(campo.id);
 
@@ -407,14 +422,12 @@
     });
   });
 
-  // Valida o formulário no envio
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     formStatus.classList.remove('success', 'error');
     formStatus.textContent = '';
 
-    // Valida todos os campos
     let todosValidos = true;
     for (let campo of campos) {
       if (!validarCampo(campo)) {
@@ -426,13 +439,11 @@
       formStatus.textContent = 'Formulário enviado com sucesso!';
       formStatus.classList.add('success');
 
-      // Reseta o formulário após 2 segundos
       setTimeout(() => {
         form.reset();
         formStatus.textContent = '';
         formStatus.classList.remove('success');
 
-        // Remove mensagens de sucesso dos campos
         document.querySelectorAll('.success-message').forEach(msg => {
           msg.classList.remove('show');
         });
@@ -443,7 +454,6 @@
     }
   });
 
-  // Limpa a mensagem de status quando o usuário volta a editar após erro
   form.addEventListener('input', () => {
     if (formStatus.classList.contains('error')) {
       formStatus.textContent = '';

@@ -1,17 +1,10 @@
-// Função assíncrona para buscar previsão do tempo
 async function buscarPrevisao(cidade) {
     const resultado = document.getElementById('resultado');
     resultado.innerHTML = '<p class="loading">Buscando...</p>';
 
-    // Simulação de dados (substitua pela API real se tiver chave)
-    // const apiKey = 'SUA_CHAVE_API';
-    // const url = `https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${apiKey}&units=metric&lang=pt_br`;
-
     try {
-        // Simula delay de rede
         await new Promise(resolve => setTimeout(resolve, 800));
 
-        // Dados simulados para demonstração
         const dados = simularDados(cidade);
 
         if (!dados) {
@@ -25,7 +18,6 @@ async function buscarPrevisao(cidade) {
     }
 }
 
-// Simula resposta da API
 function simularDados(cidade) {
     const cidades = {
         'são paulo': { name: 'São Paulo', temp: 23, humidity: 72, description: 'nublado' },
@@ -38,7 +30,6 @@ function simularDados(cidade) {
     return cidades[cidade.toLowerCase()];
 }
 
-// Exibe os dados na tela
 function exibirResultado(dados) {
     const resultado = document.getElementById('resultado');
     resultado.innerHTML = `
@@ -49,7 +40,6 @@ function exibirResultado(dados) {
     `;
 }
 
-// Evento do botão
 document.getElementById('buscar').addEventListener('click', () => {
     const cidade = document.getElementById('cidade').value;
     if (cidade) {
@@ -57,7 +47,6 @@ document.getElementById('buscar').addEventListener('click', () => {
     }
 });
 
-// Permite buscar com Enter
 document.getElementById('cidade').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         const cidade = document.getElementById('cidade').value;

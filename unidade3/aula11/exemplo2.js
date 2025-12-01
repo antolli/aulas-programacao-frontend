@@ -1,4 +1,3 @@
-// Função utilitária: debounce
 function debounce(funcao, delay) {
     let timeout;
     return function(...args) {
@@ -7,7 +6,6 @@ function debounce(funcao, delay) {
     };
 }
 
-// Formatação automática de CPF
 function formatarCPF(valor) {
     valor = valor.replace(/\D/g, '');
     valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
@@ -16,7 +14,6 @@ function formatarCPF(valor) {
     return valor;
 }
 
-// Validação de CPF
 function validarCPF(cpf) {
     cpf = cpf.replace(/\D/g, '');
     if (cpf.length !== 11) return false;
@@ -24,7 +21,6 @@ function validarCPF(cpf) {
     return true;
 }
 
-// Elementos do formulário
 const campoNome = document.getElementById('nome');
 const campoEmail = document.getElementById('email');
 const campoCPF = document.getElementById('cpf');
@@ -36,7 +32,6 @@ const erroEmail = document.getElementById('erro-email');
 const erroCPF = document.getElementById('erro-cpf');
 const erroSenha = document.getElementById('erro-senha');
 
-// Validação do nome
 function validarNome() {
     const valor = campoNome.value;
     
@@ -63,7 +58,6 @@ function validarNome() {
     return true;
 }
 
-// Validação do e-mail
 function validarEmail() {
     const valor = campoEmail.value;
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -85,7 +79,6 @@ function validarEmail() {
     return true;
 }
 
-// Validação do CPF
 function validarCampoCPF() {
     const valor = campoCPF.value;
     
@@ -106,7 +99,6 @@ function validarCampoCPF() {
     return true;
 }
 
-// Validação da senha
 function validarSenha() {
     const valor = campoSenha.value;
     
@@ -116,7 +108,6 @@ function validarSenha() {
         numero: /\d/.test(valor)
     };
     
-    // Atualizar indicadores visuais
     document.getElementById('req-tamanho').classList.toggle('atendido', requisitos.tamanho);
     document.getElementById('req-letra').classList.toggle('atendido', requisitos.letra);
     document.getElementById('req-numero').classList.toggle('atendido', requisitos.numero);
@@ -138,7 +129,6 @@ function validarSenha() {
     return true;
 }
 
-// Eventos de validação com debounce
 campoNome.addEventListener('input', debounce(function() {
     if (this.value.length > 0) {
         validarNome();
@@ -155,7 +145,6 @@ campoEmail.addEventListener('input', debounce(function() {
 
 campoEmail.addEventListener('blur', validarEmail);
 
-// Formatação automática do CPF
 campoCPF.addEventListener('input', function() {
     this.value = formatarCPF(this.value);
     if (this.value.length > 0) {
@@ -173,7 +162,6 @@ campoSenha.addEventListener('input', debounce(function() {
 
 campoSenha.addEventListener('blur', validarSenha);
 
-// Validação no envio do formulário
 formulario.addEventListener('submit', function(evento) {
     evento.preventDefault();
     
@@ -189,7 +177,6 @@ formulario.addEventListener('submit', function(evento) {
         console.log('CPF:', campoCPF.value);
         console.log('Senha:', campoSenha.value);
         
-        // Resetar formulário
         formulario.reset();
         document.querySelectorAll('.valido, .invalido').forEach(el => {
             el.classList.remove('valido', 'invalido');

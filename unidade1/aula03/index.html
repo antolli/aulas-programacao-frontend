@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exemplos Práticos - Navegação e Otimização do DOM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,110 +15,118 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            color: #333;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8f9fa;
+            color: #212529;
             line-height: 1.6;
+            padding: 2rem 0;
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px 0;
+            background: #ffffff;
+            color: #212529;
+            padding: 3rem 0;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 2rem;
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
         }
 
         .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
+            font-size: 1.125rem;
+            color: #6c757d;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 1rem;
         }
 
         .section {
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background: #ffffff;
+            border-radius: 0.375rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #dee2e6;
         }
 
         .section h2 {
-            color: #667eea;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #667eea;
+            font-family: 'Playfair Display', serif;
+            color: #212529;
+            font-size: 1.75rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 600;
         }
 
         .section h3 {
-            color: #764ba2;
-            font-size: 1.3em;
-            margin: 20px 0 15px;
+            color: #495057;
+            font-size: 1.125rem;
+            margin: 1.25rem 0 0.9375rem;
+            font-weight: 500;
         }
 
         .code-block {
-            background: #f8f8f8;
-            border-left: 4px solid #667eea;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
+            background: #f8f9fa;
+            border-left: 3px solid #b19cd9;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
             overflow-x: auto;
         }
 
         .code-block pre {
             font-family: 'Courier New', monospace;
-            font-size: 14px;
+            font-size: 0.875rem;
             line-height: 1.5;
+            margin: 0;
         }
 
         .result-box {
-            background: #e8f5e9;
-            border-left: 4px solid #4caf50;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
+            background: #d1e7dd;
+            border-left: 3px solid #198754;
+            padding: 0.9375rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
         }
 
         .result-box h4 {
-            color: #2e7d32;
-            margin-bottom: 10px;
+            color: #0f5132;
+            margin-bottom: 0.625rem;
         }
 
         button {
-            background: #667eea;
-            color: white;
+            background: #b19cd9;
+            color: #ffffff;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
             cursor: pointer;
-            font-size: 14px;
-            margin: 5px;
-            transition: all 0.3s;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            margin: 0.3125rem;
+            transition: background-color 0.15s ease-in-out;
         }
 
         button:hover {
-            background: #5a6fd8;
-            transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            background: #9d8ac5;
         }
 
         .demo-area {
-            background: #f9f9f9;
-            border: 2px dashed #ddd;
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 5px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0.375rem;
         }
 
         .highlight {
@@ -229,39 +240,44 @@
 
         .input-comentario input {
             flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            font-size: 0.9375rem;
         }
 
         #output, #output-parent, #output-children {
-            background: #f5f5f5;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
+            background: #f8f9fa;
+            padding: 0.625rem;
+            border-radius: 0.375rem;
+            margin-top: 0.625rem;
             min-height: 50px;
             font-family: monospace;
+            font-size: 0.875rem;
+            border: 1px solid #dee2e6;
         }
 
         .stats {
             background: #fff3cd;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
+            padding: 0.625rem;
+            border-radius: 0.375rem;
+            margin: 0.625rem 0;
+            border-left: 3px solid #ffc107;
         }
 
         .card {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 5px;
-            background: white;
-            margin: 5px;
+            border: 1px solid #dee2e6;
+            padding: 0.9375rem;
+            border-radius: 0.375rem;
+            background: #ffffff;
+            margin: 0.3125rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .card h4 {
-            color: #667eea;
-            margin-bottom: 10px;
+            color: #212529;
+            margin-bottom: 0.625rem;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
@@ -273,12 +289,12 @@
 </head>
 <body>
     <div class="header">
+        <a href="../../index.html" style="display: inline-block; margin-bottom: 1rem; padding: 0.5rem 1rem; background: #b19cd9; color: #ffffff; text-decoration: none; border-radius: 0.375rem; font-weight: 500; transition: background-color 0.15s ease-in-out;">← Voltar ao Menu</a>
         <h1>Navegação e Otimização do DOM</h1>
         <p>Exemplos Práticos e Interativos</p>
     </div>
 
     <div class="container">
-        <!-- Seção 1: Estrutura DOM -->
         <div class="section">
             <h2>1. Estrutura Hierárquica do DOM</h2>
             
@@ -293,20 +309,19 @@
 
             <h3>Demonstração Interativa:</h3>
             <div class="demo-area">
-                <div id="demo-container" style="border: 2px solid #667eea; padding: 10px; background: #f0f0f0;">
+                <div id="demo-container" style="border: 1px solid #dee2e6; padding: 0.625rem; background: #f8f9fa;">
                     Container (Avô)
-                    <div id="demo-pai" style="border: 2px solid #764ba2; padding: 10px; margin: 10px; background: white;">
+                    <div id="demo-pai" style="border: 1px solid #dee2e6; padding: 0.625rem; margin: 0.625rem; background: #ffffff;">
                         Pai
-                        <p id="filho1" style="background: #e3f2fd; padding: 5px; margin: 5px;">Filho 1</p>
-                        <p id="filho2" style="background: #e3f2fd; padding: 5px; margin: 5px;">Filho 2</p>
+                        <p id="filho1" style="background: #f8f9fa; padding: 0.3125rem; margin: 0.3125rem; border: 1px solid #dee2e6;">Filho 1</p>
+                        <p id="filho2" style="background: #f8f9fa; padding: 0.3125rem; margin: 0.3125rem; border: 1px solid #dee2e6;">Filho 2</p>
                     </div>
                 </div>
-                <button onclick="mostrarRelacoes()">Analisar Relações</button>
+                <button onclick="mostrarRelacoes()" title="Analisa as relações hierárquicas entre elementos DOM">Analisar Relações</button>
                 <div id="output"></div>
             </div>
         </div>
 
-        <!-- Seção 2: ParentNode -->
         <div class="section">
             <h2>2. Navegação com parentNode</h2>
             
@@ -318,17 +333,16 @@ console.log(pai.id); // Saída: "container"</pre>
 
             <h3>Teste ao Vivo:</h3>
             <div class="demo-area">
-                <div id="container-parent" style="border: 2px solid #667eea; padding: 20px;">
+                <div id="container-parent" style="border: 1px solid #dee2e6; padding: 1.25rem; background: #f8f9fa;">
                     <span>Container (ID: container-parent)</span>
-                    <div style="margin-top: 10px;">
-                        <button id="meuBotao" onclick="encontrarPai()">Clique para encontrar meu pai</button>
+                    <div style="margin-top: 0.625rem;">
+                        <button id="meuBotao" onclick="encontrarPai()" title="Demonstra a navegação usando parentNode">Clique para encontrar meu pai</button>
                     </div>
                 </div>
                 <div id="output-parent"></div>
             </div>
         </div>
 
-        <!-- Seção 3: Children vs ChildNodes -->
         <div class="section">
             <h2>3. Children vs ChildNodes</h2>
             
@@ -345,12 +359,11 @@ console.log(lista.children.length);   // Apenas elementos HTML</pre>
                     <p>Item 2</p>
                     <p>Item 3</p>
                 </div>
-                <button onclick="compararChildrenChildNodes()">Comparar children vs childNodes</button>
+                <button onclick="compararChildrenChildNodes()" title="Compara a diferença entre children e childNodes">Comparar children vs childNodes</button>
                 <div id="output-children"></div>
             </div>
         </div>
 
-        <!-- Seção 4: Siblings -->
         <div class="section">
             <h2>4. Navegação entre Irmãos (Siblings)</h2>
             
@@ -361,8 +374,7 @@ console.log(lista.children.length);   // Apenas elementos HTML</pre>
     if (proximo) {
         elementoAtual.classList.remove('ativo');
         proximo.classList.add('ativo');
-    } else {
-        // Retorna ao primeiro elemento
+            } else {
         elementoAtual.classList.remove('ativo');
         elementoAtual.parentNode.firstElementChild.classList.add('ativo');
     }
@@ -378,14 +390,13 @@ console.log(lista.children.length);   // Apenas elementos HTML</pre>
                     <span class="nav-item">Sobre</span>
                     <span class="nav-item">Contato</span>
                 </div>
-                <div style="margin-top: 15px;">
-                    <button onclick="navegarAnteriorDemo()">← Anterior</button>
-                    <button onclick="navegarProximoDemo()">Próximo →</button>
+                <div style="margin-top: 0.9375rem;">
+                    <button onclick="navegarAnteriorDemo()" title="Navega para o elemento irmão anterior">← Anterior</button>
+                    <button onclick="navegarProximoDemo()" title="Navega para o próximo elemento irmão">Próximo →</button>
                 </div>
             </div>
         </div>
 
-        <!-- Seção 5: Performance -->
         <div class="section">
             <h2>5. Otimização de Performance</h2>
             
@@ -410,15 +421,14 @@ lista.innerHTML = conteudo;</pre>
 
             <h3>Teste de Performance:</h3>
             <div class="demo-area">
-                <button onclick="testeIneficiente()">Teste Ineficiente (100 items)</button>
-                <button onclick="testeOtimizado()">Teste Otimizado (100 items)</button>
-                <button onclick="limparLista()">Limpar Lista</button>
+                <button onclick="testeIneficiente()" title="Testa método ineficiente de adicionar elementos">Teste Ineficiente (100 items)</button>
+                <button onclick="testeOtimizado()" title="Testa método otimizado de adicionar elementos">Teste Otimizado (100 items)</button>
+                <button onclick="limparLista()" title="Remove todos os itens da lista">Limpar Lista</button>
                 <div class="stats" id="stats"></div>
-                <ul id="lista-performance" style="max-height: 200px; overflow-y: auto;"></ul>
+                <ul id="lista-performance" style="max-height: 12.5rem; overflow-y: auto; list-style: none; padding: 0;"></ul>
             </div>
         </div>
 
-        <!-- Seção 6: DocumentFragment -->
         <div class="section">
             <h2>6. DocumentFragment</h2>
             
@@ -434,14 +444,13 @@ document.getElementById('lista').appendChild(fragment);</pre>
 
             <h3>Demonstração com Fragment:</h3>
             <div class="demo-area">
-                <button onclick="adicionarComFragment()">Adicionar 500 items com Fragment</button>
-                <button onclick="limparListaFragment()">Limpar</button>
+                <button onclick="adicionarComFragment()" title="Adiciona elementos usando DocumentFragment para melhor performance">Adicionar 500 items com Fragment</button>
+                <button onclick="limparListaFragment()" title="Remove todos os itens da lista">Limpar</button>
                 <div id="stats-fragment" class="stats"></div>
-                <ul id="lista-fragment" style="max-height: 200px; overflow-y: auto;"></ul>
+                <ul id="lista-fragment" style="max-height: 12.5rem; overflow-y: auto; list-style: none; padding: 0;"></ul>
             </div>
         </div>
 
-        <!-- Seção 7: Criação Dinâmica -->
         <div class="section">
             <h2>7. Criação Dinâmica de Elementos</h2>
             
@@ -462,14 +471,13 @@ card.appendChild(preco);</pre>
 
             <h3>Criar Card Dinâmico:</h3>
             <div class="demo-area">
-                <input type="text" id="nome-produto" placeholder="Nome do produto" style="padding: 8px; margin: 5px;">
-                <input type="text" id="preco-produto" placeholder="Preço" style="padding: 8px; margin: 5px;">
-                <button onclick="criarCard()">Criar Card</button>
-                <div id="cards-container" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;"></div>
+                <input type="text" id="nome-produto" placeholder="Nome do produto" style="padding: 0.5rem 0.75rem; margin: 0.3125rem; border: 1px solid #ced4da; border-radius: 0.375rem; font-size: 0.9375rem;">
+                <input type="text" id="preco-produto" placeholder="Preço" style="padding: 0.5rem 0.75rem; margin: 0.3125rem; border: 1px solid #ced4da; border-radius: 0.375rem; font-size: 0.9375rem;">
+                <button onclick="criarCard()" title="Cria um novo card dinamicamente usando JavaScript">Criar Card</button>
+                <div id="cards-container" style="display: flex; flex-wrap: wrap; gap: 0.625rem; margin-top: 1.25rem;"></div>
             </div>
         </div>
 
-        <!-- Seção 8: Sistema de Comentários Completo -->
         <div class="section">
             <h2>8. Sistema de Comentários - Implementação Completa</h2>
             
@@ -524,18 +532,16 @@ card.appendChild(preco);</pre>
             <h3>Sistema de Comentários Funcionando:</h3>
             <div class="demo-area">
                 <div class="input-comentario">
-                    <input type="text" id="autor-input" placeholder="Seu nome" style="width: 150px;">
+                    <input type="text" id="autor-input" placeholder="Seu nome" style="width: 150px; padding: 0.5rem 0.75rem; border: 1px solid #ced4da; border-radius: 0.375rem; font-size: 0.9375rem;">
                     <input type="text" id="comentario-input" placeholder="Digite seu comentário...">
-                    <button onclick="adicionarNovoComentario()">Comentar</button>
+                    <button onclick="adicionarNovoComentario()" title="Adiciona um novo comentário ao sistema">Comentar</button>
                 </div>
                 
                 <div id="comentarios" class="comentarios-container">
-                    <!-- Comentários aparecerão aqui -->
                 </div>
             </div>
         </div>
 
-        <!-- Seção 9: Clonagem de Elementos -->
         <div class="section">
             <h2>9. Clonagem de Elementos</h2>
             
@@ -548,12 +554,12 @@ document.body.appendChild(novoCard);</pre>
 
             <h3>Demonstração de Clonagem:</h3>
             <div class="demo-area">
-                <div id="template-original" style="border: 2px solid #667eea; padding: 10px; margin: 10px; background: #f0f4ff;">
+                <div id="template-original" style="border: 1px solid #dee2e6; padding: 0.625rem; margin: 0.625rem; background: #ffffff;">
                     <h4>Template Original</h4>
                     <p>Este é um template que será clonado</p>
                     <button>Botão do Template</button>
                 </div>
-                <button onclick="clonarTemplate()">Clonar Template</button>
+                <button onclick="clonarTemplate()" title="Clona o template original criando uma nova instância">Clonar Template</button>
                 <div id="clones-container"></div>
             </div>
         </div>

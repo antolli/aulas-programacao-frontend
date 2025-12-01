@@ -1,4 +1,3 @@
-        // Função 1: Mostrar Relações DOM
         function mostrarRelacoes() {
             const filho1 = document.getElementById('filho1');
             const output = document.getElementById('output');
@@ -13,7 +12,6 @@
             `;
         }
 
-        // Função 2: Encontrar Pai
         function encontrarPai() {
             const botao = document.getElementById('meuBotao');
             const pai = botao.parentNode;
@@ -27,7 +25,6 @@
             `;
         }
 
-        // Função 3: Comparar Children vs ChildNodes
         function compararChildrenChildNodes() {
             const lista = document.getElementById('lista-demo');
             const output = document.getElementById('output-children');
@@ -43,7 +40,6 @@
             `;
         }
 
-        // Função 4: Navegação Siblings
         function navegarProximo(elementoAtual) {
             const proximo = elementoAtual.nextElementSibling;
             
@@ -75,7 +71,6 @@
             }
         }
 
-        // Função 5: Testes de Performance
         function testeIneficiente() {
             const lista = document.getElementById('lista-performance');
             const stats = document.getElementById('stats');
@@ -109,7 +104,6 @@
             document.getElementById('stats').innerHTML = '';
         }
 
-        // Função 6: DocumentFragment
         function adicionarComFragment() {
             const lista = document.getElementById('lista-fragment');
             const stats = document.getElementById('stats-fragment');
@@ -132,7 +126,6 @@
             document.getElementById('stats-fragment').innerHTML = '';
         }
 
-        // Função 7: Criar Cards
         function criarCard() {
             const nome = document.getElementById('nome-produto').value || 'Produto';
             const preco = document.getElementById('preco-produto').value || 'R$ 0,00';
@@ -157,12 +150,10 @@
             card.appendChild(botao);
             container.appendChild(card);
             
-            // Limpar inputs
             document.getElementById('nome-produto').value = '';
             document.getElementById('preco-produto').value = '';
         }
 
-        // Função 8: Sistema de Comentários
         class SistemaComentarios {
             constructor() {
                 this.container = document.getElementById('comentarios');
@@ -251,7 +242,6 @@
             }
         }
 
-        // Função 9: Clonar Template
         function clonarTemplate() {
             const template = document.getElementById('template-original');
             const container = document.getElementById('clones-container');
@@ -263,7 +253,6 @@
             container.appendChild(clone);
         }
 
-        // Adicionar alguns comentários de exemplo ao carregar
         window.addEventListener('DOMContentLoaded', () => {
             const com1 = sistema.adicionarComentario('Este é o primeiro comentário do sistema!', 'João');
             const com2 = sistema.adicionarComentario('Ótima implementação de navegação DOM', 'Maria');
